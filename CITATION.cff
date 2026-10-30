@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this research package, please cite it using the metadata below."
+type: software
+title: "Exact degree and real-point counts in a localized sector of quantum Levi–Civita connections on (ℤ₂)⁴: A computer-assisted classification of a marked path–triangle sector"
+authors:
+  - family-names: Torsheim
+    given-names: Marius
+version: "0.13"
+date-released: 2026-10-30
+abstract: >-
+  Manuscript revision 0.13 and exact computational supplement revision 2.3
+  for a marked, spatially homogeneous, trace-zero localized path–triangle
+  sector of quantum Levi–Civita connections. The declared sector has generic
+  complex degree 512 and, at the stated rational metric, 512 reduced complex
+  points, including 204 real points.
+repository-code: "https://github.com/Torsheim/quantum-gravity-qlc"
+url: "https://github.com/Torsheim/quantum-gravity-qlc"
