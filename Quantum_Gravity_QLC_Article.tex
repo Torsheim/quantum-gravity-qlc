@@ -1,0 +1,3282 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=23mm]{geometry}
+\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools,mathrsfs}
+\usepackage{booktabs,longtable,tabularx,array,enumitem}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Exact degree and real-point counts in a localized sector of QLC connections},pdfauthor={Marius Torsheim}}\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}\setlength{\emergencystretch}{3em}
+\pagestyle{fancy}\fancyhf{}\lhead{Exact enumeration on the binary cube}
+\rhead{Quantum Levi--Civita connections}\cfoot{\thepage}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Spec}{\operatorname{Spec}}\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Id}{\mathrm I}\newcommand{\F}{\mathbb F}
+\newcommand{\Ab}{\overline A}\newcommand{\Bb}{\overline B}
+\newcommand{\Orb}{\mathcal O}\newcommand{\length}{\operatorname{length}}
+\newcommand{\norm}[1]{\left\|#1\right\|_\infty}
+\title{\textbf{Exact degree and real-point counts in a localized sector of}\\
+\textbf{quantum Levi--Civita connections on $(\mathbb Z_2)^4$}\\[0.4em]
+\large A computer-assisted classification of a marked path--triangle sector}
+\author{Marius Torsheim\\[0.3em]
+\small Independent researcher\\
+\small \AA{}saveien 14B, 0362 Oslo, Norway\\
+\small\href{mailto:marius.torsheim123@gmail.com}{\texttt{marius.torsheim123@gmail.com}}}
+\date{30 October 2026; manuscript revision 0.13}
+\begin{document}\maketitle
+\begin{abstract}
+We define a marked, spatially homogeneous, trace-zero path--triangle
+sector of bimodule quantum Levi--Civita connections for a specified
+differential calculus on the four-dimensional binary cube. Reversible
+algebraic reductions identify its real coefficient scheme with an explicit
+localized family of four equations in four variables. We prove that its complexification
+has generic geometric degree $512$. At the rational metric
+$q^0=(4/3,12/11,3/4)$, with the four scales equal to one, we prove that
+the entire declared fibre has length $512$ and consists of $512$ distinct
+reduced points, exactly $204$ of which are real.
+The proof separates the generic-degree calculation, the upper bound at
+every finite special fibre, the construction of $512$ distinct lifts,
+and the exact real-root count. Large integer polynomials and finite-field
+identities are supplied as explicit computational certificates with
+verification algorithms. The geometric arguments, exact identities and
+standard algebraic-geometric ingredients are given explicitly. The count concerns the stated marked sector,
+without a quotient by symmetry or a claim about the full moduli space.
+\end{abstract}
+\noindent\textbf{Keywords:} quantum Levi--Civita connections; finite geometry;
+scheme-level reconstruction; computer-assisted enumeration; real algebraic geometry.
+
+\section{Introduction}
+Quantum Levi--Civita connections on a finite differential calculus are
+specified by torsion, tensor metric compatibility and a star-preserving
+bimodule Leibniz rule. Solving these equations is a nonlinear algebraic
+problem even when the underlying algebra consists of functions on a
+small finite set. An exact enumeration must retain the calculus, the
+unknown tensor Leibniz map, the real structure and every open condition
+through elimination and reconstruction.
+
+We study the four coordinate-flip Grassmann calculus on
+$(\mathbb Z/2)^4$, with a diagonal Lorentz-signature metric whose
+coefficients are spatially homogeneous and may change between two
+binary time slices. The family counted here is defined directly in the fixed marked connection data
+by a spatial path on one slice, a spatial triangle on the other,
+trace-zero conditions and an explicit regular open. These are coupling
+graphs of the connection coefficients within one sixteen-vertex
+calculus. The path is the minimally connected spatial support; the
+triangle adds one independent cycle. The two slices are coupled by the
+original temporal metric and star equations. The resulting completion
+mechanisms and a balanced tensor-block splitting are explained in
+Section~\ref{geometry:motivation}.
+
+The contribution is a reversible description of this original localized
+QLC scheme and a complete computer-assisted enumeration. Its generic
+complex degree is $512$. At the rational metric
+$q^0=(4/3,12/11,3/4)$, with all scales one, its entire declared fibre is
+reduced with $512$ complex points, precisely $204$ of which are real.
+The inverse reconstruction produces actual star-preserving bimodule
+connections at all those real points. The theorem counts marked
+coefficient points; its support and localization are retained throughout.
+The explicit fibre supplies a test case for reconstruction and counting
+methods that must retain both the original geometric equations and the
+real structure while allowing the tensor Leibniz map to vary.
+
+Three logically separate tasks are essential. The generic-degree
+argument supplies the upper bound at every finite special fibre. Finiteness
+and $512$ distinct smooth characteristic-zero lifts exhaust that bound.
+Only then does an exact primitive-coordinate polynomial and a complete
+real-root certificate identify the $204$ real connections. Finding $512$
+modular points alone would leave the completeness question unanswered.
+All written arguments and actual polynomial data are supplied. A single
+supplementary command replays the arithmetic from fresh inputs; no earlier
+project archive is required.
+
+\subsection{Relation to prior work}
+The finite-set bimodule framework, star-compatible connections and the
+inner description of connections are established machinery
+\cite{beggs-majid-star,majid-graphs}. In particular,
+\cite[Definition~8.3, Proposition~8.11 and Lemma~8.17,
+pp.~568, 576--579 and 589--590]{orig-book} gives the inner normal form,
+torsion, full tensor metric compatibility and group component equations
+used here. Its group-degree argument already forces the inner correction
+map to vanish for the four coordinate flips. Star preservation is an
+additional requirement, as in \cite[Lemma~8.7, p.~572]{orig-book}.
+General component equations for nonconstant Cayley data also precede
+this work \cite[Section~6.1, Proposition~6.2 and Lemma~6.3]{orig-graphs24},
+\cite[Section~2.2 and Lemma~2.1]{orig-polygon}. The present result solves a specified
+restricted coefficient scheme within that framework.
+
+Square and polygon classifications already exhibit QLC nonuniqueness;
+digital classifications also provide finite QLC counts
+\cite{orig-square,orig-polygon,orig-digital}. The earlier generic square
+family is already given in \cite[Section~5]{orig-emergence}. They depend
+on the specified two-form calculus as well as the first-order graph.
+For example, the cyclic and bit-flip squares have different two-form
+translation degrees and torsion equations. In the bit-flip square,
+$\deg(e^1\wedge e^2)=s_1+s_2\ne0$ in $(\mathbb Z/2)^2$;
+in the cyclic four-gon,
+$\deg(e^+\wedge e^-)=1+(-1)=0$ in $\mathbb Z/4$.
+The basic two-form therefore has different bimodule commutation with
+functions in these two calculi. Higher-dimensional component
+analysis in \cite[Section~5.2, pp.~242--245]{orig-vh25} assumes cyclic orders $m_i>4$ and distinct
+positive and negative directions. Setting those orders to two changes
+the translation-degree blocks, so it is not a formal specialization of
+that classification to the present input.
+
+Uniqueness comparisons must keep their compatibility conventions and
+fixed data. Theorem~5.14 of \cite{orig-mr25} compares connections with
+the same tensor Leibniz map $\sigma$, whereas $\sigma$ varies here.
+The inner formula below already implies uniqueness when our $\sigma$
+is fixed. The weak Hermitian framework of \cite[Theorems~3.11 and~4.12]{orig-bgg} provides a
+comparison of metric and torsion predicates on star-preserving invertible
+bimodule pairs; it does not enumerate the marked support, traces and
+localized scheme considered here. We make no claim to a new connection
+formalism or a general uniqueness counterexample across different notions
+of metric compatibility.
+
+Further existence and uniqueness results require attention to the calculus.
+Our one-form bimodule has zero centre: if $\omega=\sum_i a_ie^i$ is
+central, then $a_i(f-R_if)=0$ for every vertex function $f$, and vertex
+idempotents force all $a_i=0$. The centred-calculus hypothesis of
+\cite[Definition~3.15 and Theorem~4.24]{orig-fmr26} fails here because
+$Z(\Omega^1)=0$.  The derivation-based calculus of
+\cite[Definitions~2.1 and~3.12, Theorem~7.2]{orig-ah26} has
+$\mathfrak g\subseteq\operatorname{Der}(A)$, whereas
+$\operatorname{Der}(\mathbb C^{16})=0$: an ordinary derivation
+annihilates every primitive idempotent, since $D(p)=2pD(p)$ and $1-2p$
+is a unit.
+Aschieri's theorem \cite[Theorem~6.7]{orig-aschieri26} uses the dual of
+the associated braided-derivation module.  On our natural Hopf input
+$A=C(G)$, $G=(\mathbb Z/2)^4$, his cotriangular construction
+\cite[Example~3.9, equations~(3.25) and~(3.28)]{orig-aschieri26}
+gives zero one-forms: $U=A^*=\mathbb C[G]$ is commutative, so its adjoint
+action is trivial and (3.28) reduces to the primitive-element equation,
+whose only solution in $U$ is zero.  Thus this construction does not
+give our rank-four Grassmann calculus.  This last comparison concerns
+the natural Hopf input and makes no assertion about every possible
+alternative triangular $H$-realization.
+
+By contrast, \cite[Theorem~5.7]{orig-aw25} does apply to our bicovariant
+calculus and the corresponding inverse metric
+$\mathfrak g=\sum_i k_i\xi_i\otimes\xi_i$, $k_i=h_i^{-1}$.
+Here $h_i$ are the metric coefficients of Section~\ref{geometry:model},
+and $\xi_i$ is the right-linear dual frame with
+$\langle\xi_i,e^j\rangle=\delta_{ij}$.
+On symmetric-output coefficients $L^i{}_{jb}=L^i{}_{bj}$, their map
+$\Phi_{\mathfrak g}$ sends $L$ to
+$M_{ijb}=k_jL^i{}_{jb}+k_iL^j{}_{ib}$ and has inverse
+$L^i{}_{jb}=(k_bM_{ijb}+k_jM_{ibj}-k_iM_{jbi})/(2k_jk_b)$.
+Every denominator is a unit, so this proves invertibility here.
+Using the notation of Section~\ref{geometry:model}, pass to a right
+connection by $\nabla_R=D\circ\nabla\circ *$ and write
+$\nabla_Re^i=\sum_{a,b}K^i_{ab}e^a\otimes e^b$.
+Their compatibility condition
+\cite[Definition~5.3(ii)]{orig-aw25} becomes
+$k_jK^i_{jb}+k_iK^j_{ib}=\delta_{ij}(R_bk_i-k_i)$.
+The case $i=j=b$, edge symmetry and
+$K^i_{ii}=-\overline{U_i}$ force $U_i=0$, contradicting
+\eqref{geometry:support}.  Moreover, pulling their unique connection
+back by the same star passage and using \eqref{geometry:sigma} gives
+the residual $E_{0ii}=-h_i(Q_i-1)^2/4$ in
+\eqref{geometry:metriccomponents}, where
+$Q_i(t)=h_i(1-t)/h_i(t)$ and $i>0$.  Thus the same-metric compatibility
+conditions differ even without the marked trace restriction.
+Both Aschieri and Aschieri--Weber allow arbitrary connections in these
+theorems; these comparisons rely on their actual calculus and metric
+predicates, rather than merely on fixing a tensor braiding.
+Appendix~\ref{aw:appendix} derives the rational tensor-product
+specialization, including the coefficient-shift cancellation, and the
+same-metric residual explicitly.
+
+Our contribution is the scheme-level reconstruction, the corrected
+generic degree, the complete reduced rational-metric fibre and its exact
+real count, taken together. The inspected versions are identified in the
+bibliography. This statement does not assert a full four-cube moduli
+classification, a general elimination algorithm, or universal priority.
+Example~8.20 of \cite[pp.~594--598]{orig-book} and its relevant
+dependencies have now been inspected in full. It treats the rank-two
+bit-flip square: the rectangular metric family has four nonzero complex
+connection parameters, and the displayed generic family has one; star
+preservation imposes unit modulus. The intermediate case with only one
+constant metric function is explicitly left without a separate
+classification. Section~2.3, pp.~6--7 of the inspected arXiv v1 of
+\cite{orig-square} has the same scope. These parameter families must not
+be identified with the complexification of our restricted real scheme.
+The general book machinery applies to our calculus and generates its
+equations, but the inspected results do not supply the coupled marked
+sector, its reversible reduction or the complete $512/204$ enumeration.
+Section~\ref{geometry:motivation} also gives a concrete obstruction to
+obtaining our connections by restriction to coordinate squares.
+The detailed dependency and construction comparison is supplied in
+\path{literature/literature_comparison.pdf}. The final twenty-three-page
+journal version of \cite{orig-square} remains uninspected; no claim about
+its complete classification scope is inferred from its metadata or from
+the book's attribution of the example to that paper.
+
+% BEGIN SHARED COUNTING EXPOSITION
+\section{The statement and the proof obligations}
+The geometry, all equations and the exact open defining the family are
+given in Section~\ref{geometry:model}. The four scale parameters are
+independent invertible base parameters; they are fixed in each counting
+problem. The metric ratios vary over $q_i\ne0,1$.
+
+\begin{theorem}[Degree and the exact rational-metric fibre]
+\label{main:count}
+Let $\mathcal Q_{\rm pt}$ be the real localized coefficient scheme defined
+in Section~\ref{geometry:model}, and fix all four scales to one.
+Let $X_{\mathbb C}$ be its complexification over the metric-ratio base.
+Then:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item Its generic fibre has $512$ distinct geometric points and length
+$512$. There is a nonempty base open on which the family is finite
+\'etale of rank $512$.
+\item At $q^0=(4/3,12/11,3/4)$, its entire declared fibre is finite,
+reduced, and has $512$ distinct complex points and length $512$.
+\item Exactly $204$ points in this fibre are real. Through the explicit
+coefficient reconstruction, they are the star-preserving connections
+in the specified real marked sector at this metric.
+\end{enumerate}
+\end{theorem}
+
+The word ``complexification'' is essential: allowing the variables of
+a real coefficient scheme to take complex values is not the same as
+imposing an antilinear star equation on arbitrary complex-valued
+connection coefficients. The $204$ real points have the latter intended
+geometric interpretation through the real scheme isomorphism proved
+below. Likewise positive metric parameters in the declared sign
+convention do not mean a positive-definite coefficient matrix.
+
+The proof is arranged in the logically necessary order
+\[
+ \begin{gathered}
+ \text{generic degree }512
+ \ \Longrightarrow\ \text{finite-fibre length cap }512\\
+ \Longrightarrow\ \text{exactly }512\text{ points at }q^0
+ \ \Longrightarrow\ 204\text{ real points}.
+ \end{gathered}
+\]
+The first arrow is supplied by a separate length lemma. The second
+also requires a proof that the special fibre is finite and a construction
+of $512$ distinct characteristic-zero lifts. The last requires identifying
+the true coordinate polynomial and proving a complete real-root count.
+None of these steps is inferred merely from the number of modular
+solutions found by a search.
+
+This is a computer-assisted mathematical proof. Finite polynomial
+certificates have the same role as long exact coefficient calculations
+in an appendix: the data and specified arithmetic checks are part of
+the proof, rather than numerical sampling. The arithmetic dependencies and exact replay scope are recorded in
+Section~\ref{verification:section} and the computational supplement.
+
+\section{The original connection problem and its exact algebraic model}
+\label{geometry:model}
+
+The sector counted below is specified here before any elimination or
+specialization. Put
+\[
+ Q=q_1q_2q_3,\qquad
+ R_{\mathbb Z}=\mathbb Z[q_1,q_2,q_3,
+                 (2Q\textstyle\prod_i(q_i-1))^{-1}].
+\]
+For the connection problem use its real base change and four independent
+metric scales:
+\[
+ K=(R_{\mathbb Z}\otimes_{\mathbb Z}\mathbb R)
+       [\nu^{\pm1},\lambda_1^{\pm1},\lambda_2^{\pm1},\lambda_3^{\pm1}].
+\]
+The scales will subsequently all be fixed to one. They are independent
+base parameters, not solution variables. Write
+\[
+ A_i(0)=\lambda_i,\quad A_i(1)=q_i\lambda_i,\qquad
+ (h_0,h_1,h_2,h_3)(t)
+       =(\nu,-A_1(t),-A_2(t),-A_3(t)).
+\]
+The positive metric parameter slice has
+\(\nu,\lambda_i,q_i>0\). No positivity assumption is used in any of the
+coordinate-ring identities proved in this section.
+
+\subsection{Calculus, bimodule connection, metric and star equations}
+
+Let \(B\) be an arbitrary commutative \(K\)-algebra; in particular it may
+have nilpotents. Set \(B_{\mathbb C}=B[\mathrm i]/(\mathrm i^2+1)\), with
+conjugation fixing \(B\), and let
+\(\mathcal A=(B_{\mathbb C})^{(\mathbb Z/2)^4}\). Translation \(R_i\)
+flips bit \(i\). The differential calculus and star are
+\[
+ e^if=R_i(f)e^i,\quad
+ df=\sum_{i=0}^3(R_i f-f)e^i,\quad de^i=0,\qquad
+ e^i\wedge e^j=-e^j\wedge e^i,\quad (e^i)^*=-e^i.
+\]
+All functions on the cube remain in \(\mathcal A\). Only the connection
+and metric coefficients are spatially homogeneous: \(R_1,R_2,R_3\)
+fix them, while \(R_0\) exchanges the two slices \(t=0,1\).
+The diagonal tensor \(g=\sum_i h_i e^i\otimes e^i\) is central,
+symmetric and real, and is nondegenerate because every \(h_i\) is a
+unit. Its inverse pairing is
+\((e^i,e^j)=\delta_{ij}R_i(h_i)^{-1}\).
+
+A bimodule connection consists of \(\nabla\) and a bimodule map \(\sigma\)
+with
+\[
+ \nabla(f\omega)=df\otimes\omega+f\nabla\omega,\qquad
+ \nabla(\omega f)=(\nabla\omega)f+\sigma(\omega\otimes df).
+\]
+Here torsion freedom means \(\wedge\nabla=d\); metric compatibility
+means \(\nabla g=0\), with the induced tensor connection; and star
+preservation means \(\nabla(\omega^*)=\sigma D\nabla\omega\), where
+\(D\) is conjugate tensor flip. No Yang--Baxter equation is imposed.
+
+Let \(s_i\) be the four coordinate translations and
+\(\theta=\sum_i e^i\), so \(df=\theta f-f\theta\).
+The established inner normal form \cite[Proposition~8.11]{orig-book},
+obtained from the two Leibniz rules, is
+\[
+ \nabla\omega=\theta\otimes\omega
+                   -\sigma(\omega\otimes\theta)+\gamma(\omega),
+\]
+where \(\gamma\) is a bimodule map. A bimodule map preserves translation
+degrees. The input degree of \(e^i\) has weight one, whereas every output
+degree \(s_j+s_k\) has weight zero or two, so \(\gamma=0\).
+This is valid over \(B\): vertex idempotents distinguish the translations
+by coefficients \(0,1,-1\), without any reducedness hypothesis.
+
+Use the sign convention
+\(\nabla e^i=\sum_{j,k}C^i{}_{jk}e^j\otimes e^k\).
+Translation degrees and torsion freedom give exactly
+\begin{equation}\label{geometry:ansatz}
+ C^i{}_{ii}=U_i,\qquad
+ C^i{}_{ij}=C^i{}_{ji}=v_{ij},\qquad
+ C^i{}_{jj}=w_{ij}\quad(j\ne i),
+\end{equation}
+with all three-distinct-index coefficients zero. There are \(56\)
+complex coefficient values on both slices: \(8\) values of \(U\),
+\(24\) of \(v\), and \(24\) of \(w\). The braiding is recovered uniquely:
+\begin{equation}\label{geometry:sigma}
+ \sigma^{il}{}_{jk}
+  =\delta_{jl}\delta_{ki}
+    -\mathbf1_{s_i+s_l=s_j+s_k}C^i{}_{jk}.
+\end{equation}
+Indeed, each allowed output has exactly one possible \(l\) in the inner
+connection formula. Conversely this formula is a degree-preserving
+bimodule map and supplies both Leibniz rules.
+
+Expanding the tensor connection gives all metric components as
+\begin{equation}\label{geometry:metriccomponents}
+ E_{pqr}=\delta_{qr}(R_ph_r-h_r)+h_rC^r{}_{pq}
+       +\sum_{i,j}h_iR_i(C^i{}_{jr})\sigma^{ij}{}_{pq}.
+\end{equation}
+The coefficient shifts follow from moving functions past \(e^i\).
+Since the two minus signs in \((e^i)^*=-e^i\) cancel,
+\[
+ D(f e^j\otimes e^k)=R_jR_k(\bar f)e^k\otimes e^j.
+\]
+Thus the basis star components are
+\begin{equation}\label{geometry:starcomponents}
+ T^i{}_{pq}=C^i{}_{pq}
+       +\sum_{j,k}R_jR_k(\overline{C^i{}_{jk}})\sigma^{kj}{}_{pq}.
+\end{equation}
+There are \(128\) metric and \(128\) star components on both slices.
+
+Basis star equations are sufficient on all forms, as follows. Their
+residual is
+\[
+ \nabla e^i+\sigma D\nabla e^i
+       =\theta\otimes e^i-\sigma D\sigma(e^i\otimes\theta).
+\]
+For fixed \(i\), the inputs \(e^i\otimes e^l\) have distinct
+translation degrees \(s_i+s_l\), preserved by \(D\) and \(\sigma\).
+Consequently basis vanishing gives
+\(\sigma D\sigma(e^i\otimes e^l)=e^l\otimes e^i\) separately for every
+\(l\). Semilinearity then yields \((\sigma D)^2=\mathrm{id}\) on all
+tensors, in particular \(\sigma^{-1}=D\sigma D\).
+For
+\[
+ \mathcal R(\omega)=\nabla\omega-\sigma D\nabla(\omega^*)
+\]
+the two Leibniz rules, \((\sigma D)^2=\mathrm{id}\), and
+\(D(\omega^*\otimes df^*)=df\otimes\omega\) show
+\(\mathcal R(f\omega)=f\mathcal R(\omega)\).
+Its vanishing on the basis therefore proves its vanishing on every form.
+Applying this to \(\omega^*\) proves the stated star equation.
+
+\subsection{The declared real scheme and its twenty-three units}
+
+For each of the \(56\) coefficient values introduce independent real
+coordinates \(c_R,c_I\), writing \(c=c_R+\mathrm i c_I\). Let \(I\)
+be generated by the real and imaginary parts of all components
+\eqref{geometry:metriccomponents}--\eqref{geometry:starcomponents}, and
+of the following support and trace equations:
+\begin{equation}\label{geometry:support}
+ v_{13}(0)=v_{31}(0)=0,\qquad
+ \sum_{i=0}^3(U_i(t)-1)=0\quad(t=0,1).
+\end{equation}
+There are \(112\) real coordinate variables before taking this quotient.
+Define, before imposing the equations,
+\[
+ \begin{gathered}
+ x_i(t)=v_{0i}(t),\quad y_i(t)=v_{i0}(t),\quad
+ d_i(t)=x_i(t)+y_i(t)-1,\\
+ X_{t,i}=x_i(1-t),\quad Y_{t,i}=y_i(t),\quad
+ S_t=X_t^{\mathsf T}Y_t.
+ \end{gathered}
+\]
+For two vectors write
+\[
+ E(X,Y)=X_1^2Y_2^2-X_1^2Y_3^2-X_2^2Y_1^2+X_2^2Y_3^2
+                   +X_3^2Y_1^2-X_3^2Y_2^2,
+\]
+and put
+\[
+ A=X_{0,1}Y_{0,2}+X_{0,2}Y_{0,1},\quad
+ B_0=X_{0,2}Y_{0,3}+X_{0,3}Y_{0,2},\quad E_1=E(X_1,Y_1).
+\]
+The notation \(B_0\) here is an edge pairing, not the test algebra \(B\).
+Let \(\mathcal V\) contain both orientations of edges \(12,23\) on
+slice zero and \(12,13,23\) on slice one; it has ten elements. Define
+\begin{equation}\label{geometry:intrinsicopen}
+ \Delta_{\rm reg}=
+ \left(\prod_{i=1}^3d_i(0)(q_i-d_i(0))(q_i-d_i(0)^2)\right)
+           S_0 A B_0 E_1\prod_{v\in\mathcal V}v,
+ \qquad
+ \mathcal Q=\Spec K[c_R,c_I,N(\Delta_{\rm reg})^{-1}]/I,
+\end{equation}
+where \(N(z)=z\bar z\). We also write
+\(\mathcal Q_{\rm pt}=\mathcal Q\) to indicate this fixed marked
+path--triangle sector. This is the precise regular open under study.
+Its factors consist of nine temporal, four completion, and ten active-edge
+factors, hence twenty-three in total.
+
+For any test algebra, \(N(z)\) is a unit if and only if \(z\) is a unit
+in \(B_{\mathbb C}\): if \(N(z)\) is invertible then
+\(z^{-1}=\bar z/N(z)\); conversely conjugation preserves units.
+The inverse of the real element $N(z)$ in $B_{\mathbb C}$ is fixed
+by conjugation, so it lies in $B$; thus this equivalence also holds for
+the norm as an element of $B$.
+A product is invertible in a commutative ring if and only if each factor
+is invertible. Thus \eqref{geometry:intrinsicopen} inverts exactly the
+stated factors even before reality is proved. No pointwise active/inactive
+dichotomy has been used.
+
+\subsection{Eliminating the square coefficients and proving reality}
+
+Antisymmetrizing \eqref{geometry:metriccomponents} in \(p,q\) cancels
+the quadratic terms, because the lower connection indices are symmetric:
+\begin{align}
+ E_{pqr}-E_{qpr}
+  ={}&\delta_{qr}(R_ph_r-h_r)-\delta_{pr}(R_qh_r-h_r)\notag\\
+     &+h_qR_q(C^q{}_{pr})-h_pR_p(C^p{}_{qr}).
+ \label{geometry:antisym}
+\end{align}
+For the six unordered pairs, \(r=p,q\), and the two slices these are
+twenty-four linear equations with distinct \(w\)-pivots
+\(\pm\nu\) or \(\pm A_i(t)\). Their unique solution is
+\begin{align}
+ w_{i0}(t)&=-\nu x_i(1-t)/A_i(t),\notag\\
+ w_{0i}(t)&=\{A_i(1-t)(1-y_i(1-t))-A_i(t)\}/\nu,\notag\\
+ w_{ij}(t)&=A_j(t)v_{ji}(t)/A_i(t)\quad(i,j\text{ spatial},\ i\ne j).
+ \label{geometry:wreconstruction}
+\end{align}
+All pivots are units, so this is reversible elimination of variables in
+coordinate rings, without a radical operation.
+
+For the next formulas suppress \(t\), use a tilde for the opposite
+slice, and put
+\[
+ q_i(t)=A_i(1-t)/A_i(t),\quad m_i=U_i-1,\quad
+ M_{ii}=m_i,\ M_{ij}=v_{ij}\ (i\ne j\text{ spatial}),\quad
+ z_i=1+q_i(t)(\widetilde y_i-1),
+\]
+\[
+ \widehat L=\begin{pmatrix}m_0&X^{\mathsf T}\\z&M\end{pmatrix},\qquad
+ L^\sharp=\begin{pmatrix}\widetilde m_0&X^{\mathsf T}\\y&M\end{pmatrix}.
+\]
+Substitution of \eqref{geometry:wreconstruction} into the original
+components gives the following exhaustive table. Counts include both
+slices and duplicated components.
+\begin{center}\small
+\begin{tabular}{p{.31\linewidth}rp{.55\linewidth}}
+\hline
+Indices&Count&Exact component after substitution\\\hline
+\(p=q\)&32&
+\(E_{00r}=-\nu(\widehat LL^\sharp-\Id)_{0r}\),
+\(E_{iir}=A_i(t)(\widehat LL^\sharp-\Id)_{ir}\).\\
+\(p\ne q\), time--space, \(r=p\) or \(q\)&24&
+\(-\nu(d_i\widetilde x_i-x_i)\) for \(r=0\);
+\(A_i(t)(d_i^2-d_ix_i+q_i(t)(x_i-1))\) for \(r=i\).\\
+\(p\ne q\), spatial, \(r=p\) or \(q\)&24&
+\(A_r(t)v_{rj}(v_{pq}+v_{qp}-2)\), where \(j\) is the other index.\\
+Three distinct indices&48&Zero.\\\hline
+\end{tabular}
+\end{center}
+For example the time--space entries follow by inserting the two displayed
+\(w\)-formulas into \eqref{geometry:metriccomponents}; the remaining
+off-diagonal terms have the single possible spatial mixed coefficient.
+For diagonal outputs the four sums are precisely the matrix product shown.
+These identities cover every component and prove equality of the original
+metric ideal and the displayed residual ideal after the reversible linear
+elimination, rather than just equality of field-valued zero sets.
+
+For the star table define \(W_{ij}=C^i{}_{jj}\),
+\(\mathscr Q=\Id-W\), and \(d_{ij}=v_{ij}+v_{ji}-1\).
+Direct use of \eqref{geometry:sigma} gives
+\begin{center}\small
+\begin{tabular}{p{.31\linewidth}rp{.55\linewidth}}
+\hline
+Output indices&Count&Exact star component\\\hline
+\(p=q\)&32&\((\Id-\overline{\mathscr Q}\mathscr Q)_{ip}\).\\
+\(p\ne q\), \(i\in\{p,q\}\)&48&
+\(v_{ij}-d_{ij}R_iR_j(\bar v_{ij})\), with \(j\) the other index.\\
+Three distinct indices&48&Zero.\\\hline
+\end{tabular}
+\end{center}
+Summing mixed orientations yields
+\(1-d_{ij}R_iR_j(\bar d_{ij})\). Thus all \(d_{ij}\) are units.
+Also \(\overline{\mathscr Q}\mathscr Q=\Id\) makes
+\(\mathscr Q\) invertible by the adjugate identity. The degree-zero
+braiding block is \(\mathscr Q^{\mathsf T}\), and the mixed block for
+\(i,j\) has matrix
+\(\left(\begin{smallmatrix}-v_{ij}&1-v_{ji}\\
+1-v_{ij}&-v_{ji}\end{smallmatrix}\right)\)
+and determinant \(d_{ij}\). This also checks invertibility of the entire
+braiding directly.
+
+Now consider one time--space pair on slice zero and abbreviate
+\[
+ x=x_i(0),\quad x'=x_i(1),\quad y=y_i(0),\quad y'=y_i(1),
+ \quad d=x+y-1,\quad d'=x'+y'-1,\quad q=q_i.
+\]
+The metric residuals include
+\[
+ F_d=dx'-x,\qquad F'_d=d'x-x',\qquad
+ H_d=d^2-dx+q(x-1),\qquad (q-d)x=q-d^2.
+\]
+Our open makes \(d,q-d,q-d^2\) units. Hence \(x\) and \(x'=x/d\)
+are units, and the polynomial identity
+\[
+ dF'_d+F_d=x(dd'-1)
+\]
+gives \(dd'=1\). The star residuals are
+\(G=x-d\bar x'\), \(G'=x'-d'\bar x\). The identities
+\[
+ G+F_d=d(x'-\bar x'),\qquad
+ G'+F'_d=d'(x-\bar x)
+\]
+prove \(x,x'\) real in the universal localized coordinate ring.
+Consequently \(d=x/x'\), \(d'=d^{-1}\), \(y=d+1-x\), and
+\(y'=d'+1-x'\) are real as well. This is a statement in the ring:
+\(B_{\mathbb C}=B\oplus\mathrm iB\), so
+\(c-\bar c=2\mathrm i c_I=0\) forces \(c_I=0\), even for nilpotent
+imaginary coordinates.
+
+The temporal entries have therefore been recovered uniquely as
+\begin{equation}\label{geometry:temporal}
+ x=\frac{q-d^2}{q-d},\quad
+ y=\frac{d(q-1)}{q-d},\quad x'=x/d,\quad y'=y/d.
+\end{equation}
+All four are units. They satisfy the opposite-slice conic with
+\((q,d)\) replaced by \((q^{-1},d^{-1})\).
+The replacement \(z=y\), which cannot be made before this step, follows
+from the polynomial certificate
+\[
+ d\{1+q(y'-1)-y\}=-H_d+q(dd'-1-F_d).
+\]
+Thus the metric core becomes \(LL^\sharp=\Id\), with
+\[
+ L=\begin{pmatrix}m_0&X^{\mathsf T}\\y&M\end{pmatrix},\qquad
+ L^\sharp=\begin{pmatrix}\widetilde m_0&X^{\mathsf T}\\y&M\end{pmatrix}.
+\]
+A right inverse of a square matrix over a commutative ring is also a left
+inverse: its determinant is a unit, and the adjugate gives the inverse.
+The upper-right block of \(LL^\sharp-L^\sharp L\) is
+\((m_0-\widetilde m_0)X^{\mathsf T}\). Every \(X_i=x'_i\) is a unit,
+so \(m_0=\widetilde m_0=:m\). On each slice put \(P_t=L=L^\sharp\);
+then \(P_t^2=\Id\).
+
+On each active spatial edge one orientation is a declared unit. The metric
+product in the table consequently gives \(v_{ij}+v_{ji}=2\). On the
+inactive path edge both orientations are zero by
+\eqref{geometry:support}. With
+\(H_t=\operatorname{diag}(\nu,-A_1(t),-A_2(t),-A_3(t))\), the
+reconstruction \eqref{geometry:wreconstruction} gives the exact identity
+\[
+ \mathscr Q=-H_t^{-1}P_t^{\mathsf T}H_t.
+\]
+The metric scales are real. Therefore the degree-zero star equations give
+\(P_t\bar P_t=\Id\). Combined with \(P_t^2=\Id\), they imply
+\(\bar P_t=P_t\), with the explicit polynomial certificate
+\[
+ \bar P-P=P(P\bar P-\Id)-(P^2-\Id)\bar P.
+\]
+All \(U,v\), and then all \(w\), are real in the coordinate ring.
+The trace equations are exactly \(\tr P_t=0\).
+
+\subsection{The temporal chart and the block problem}
+
+Write \(u_i=y_i(0)\), and set
+\[
+ \alpha_i=q_i-(u_i-1)^2,\qquad \beta_i=q_i+u_i-1.
+\]
+The inverse changes of coordinates, together with every required unit
+identity, are
+\begin{align}
+ u_i&=\frac{d_i(q_i-1)}{q_i-d_i},&
+ \beta_i&=\frac{q_i(q_i-1)}{q_i-d_i},&
+ \alpha_i&=\frac{q_i(q_i-1)(q_i-d_i^2)}{(q_i-d_i)^2},\notag\\
+ d_i&=\frac{q_iu_i}{\beta_i},&
+ q_i-d_i&=\frac{q_i(q_i-1)}{\beta_i},&
+ q_i-d_i^2&=\frac{q_i(q_i-1)\alpha_i}{\beta_i^2}.
+ \label{geometry:chartinverse}
+\end{align}
+They prove isomorphism of the two temporal localizations, including
+nonreduced test algebras. The two slice vectors become exactly
+\begin{equation}\label{geometry:XY}
+ X_{0,i}=\frac{\alpha_i}{q_iu_i},\quad Y_{0,i}=u_i,
+ \qquad
+ X_{1,i}=\frac{\alpha_i}{\beta_i},\quad Y_{1,i}=\frac{\beta_i}{q_i}.
+\end{equation}
+Every entry is a unit, and
+\[
+ z_i=X_{t,i}Y_{t,i}=\alpha_i/q_i,\qquad S=S_0=S_1=\sum_i z_i.
+\]
+Thus the intermediate block problem has
+\[
+ P_t=\begin{pmatrix}m&X_t^{\mathsf T}\\Y_t&M_t\end{pmatrix},\qquad
+ M_0=\begin{pmatrix}a_0&p_0&0\\2-p_0&b_0&s_0\\0&2-s_0&c_0\end{pmatrix},
+\quad
+ M_1=\begin{pmatrix}a_1&p_1&r_1\\2-p_1&b_1&s_1\\2-r_1&2-s_1&c_1\end{pmatrix},
+\]
+subject to \(P_t^2=\Id\), \(\tr P_t=0\), and precisely the
+twenty-three units already declared. The subscripts on \(a_t,b_t,c_t\)
+are slice labels, unrelated to the metric scales.
+
+\begin{lemma}\label{geometry:blockcriterion}
+Over any commutative ring with \(2,S=X^{\mathsf T}Y\) invertible, suppose
+\(MY=-mY\), \(X^{\mathsf T}M=-mX^{\mathsf T}\), and
+\(\tr M=-m\). Then the block matrix
+\(P=\left(\begin{smallmatrix}m&X^{\mathsf T}\\Y&M\end{smallmatrix}\right)\)
+is an involution if and only if
+\[
+ F=m^2+S-1=0,\qquad G=\tr(M^2)-m^2-2=0.
+\]
+This is equality of equation ideals after the linear and trace equations.
+\end{lemma}
+\begin{proof}
+Put \(\Pi=YX^{\mathsf T}/S\). The free module of rank three splits
+as \(AY\oplus\ker X^{\mathsf T}\). The second summand is a projective
+module of rank two; the linear equations make \(M\) act by \(-m\) on
+the first summand and by a trace-zero endomorphism \(N\) on the second.
+Locally a trace-zero matrix
+\(\left(\begin{smallmatrix}a&b\\c&-a\end{smallmatrix}\right)\)
+squares to \((a^2+bc)\Id\), half the trace of its square.
+These endomorphism identities glue. It follows that
+\begin{equation}\label{geometry:blockresidual}
+ M^2+YX^{\mathsf T}-\Id=\frac G2(\Id-\Pi)+F\Pi.
+\end{equation}
+The other blocks of \(P^2-\Id\) are \(F\) and the assumed linear
+residuals. Conversely, if \(R_M=M^2+YX^{\mathsf T}-\Id\), then
+\(G=\tr R_M-F\). Both inclusions of ideals follow in the universal
+quotient by the linear and trace equations.
+\end{proof}
+
+The localization at \(S\) is substantive. For example
+\(m=1\), \(X=(1,1,1)^{\mathsf T}\), \(Y=(1,1,-2)^{\mathsf T}\),
+and
+\(M=\left(\begin{smallmatrix}0&-1&0\\-1&0&0\\0&0&-1\end{smallmatrix}\right)\)
+have \(S=0\), the linear and trace equations, and \(F=G=0\), but
+\(M^2+YX^{\mathsf T}-\Id=YX^{\mathsf T}\ne0\).
+This tests the lemma, without asserting that the example is in our
+selected support sector.
+
+\subsection{Path completion and its three scalar equations}
+
+For this subsection \(X,Y\) are the path vectors. Abbreviate
+\[
+ A=X_1Y_2+X_2Y_1,\quad B=X_2Y_3+X_3Y_2,\quad z_i=X_iY_i,
+\]
+\[
+ C=A(z_2+z_3)+B(z_1+z_2),\qquad
+ L=ABm+C,\qquad H_p=AB+4z_2.
+\]
+The six linear equations \(M_0Y=-mY\),
+\(X^{\mathsf T}M_0=-mX^{\mathsf T}\) have the unique solution
+\begin{align}
+ p_0&=\frac{2X_2Y_1}{A},&s_0&=\frac{2X_3Y_2}{B},\notag\\
+ a_0&=-m-\frac{2z_2}{A},&c_0&=-m-\frac{2z_2}{B},&
+ b_0&=-m-\frac{2z_1}{A}-\frac{2z_3}{B}.
+ \label{geometry:pathcompletion}
+\end{align}
+For uniqueness, take \(X_1\) times the first right residual minus
+\(Y_1\) times the first left residual. It is
+\(Ap_0-2X_2Y_1\). The analogous residual at vertex three gives
+\(Bs_0-2X_3Y_2\). Since \(A,B,Y_i\) are units, these determine
+the two edges and all diagonal entries. Direct substitution verifies the
+remaining linear residuals.
+
+After this completion put \(F_1=\tr M_0+m\) and
+\(F_2=\tr(M_0^2)-m^2-2\). Expansion gives
+\begin{align}
+ F_1&=-2L/(AB),\notag\\
+ AB(F_2-2F)+2CF_1+2SH_p&=0.
+ \label{geometry:pathsyzygy}
+\end{align}
+For example \(p_0(2-p_0)=4z_1z_2/A^2\) and
+\(s_0(2-s_0)=4z_2z_3/B^2\); these and the three diagonal squares
+give the second identity. Explicit inverse generator transformations are
+\[
+ F_2=2F+\frac{4CL}{(AB)^2}-\frac{2SH_p}{AB},\qquad
+ H_p=-\frac{AB(F_2-2F)+2CF_1}{2S}.
+\]
+Every denominator is a declared unit. Hence
+\((F,F_1,F_2)=(F,L,H_p)\) as ideals, and the trace-zero path
+involution is equivalent to \(F=L=H_p=0\).
+
+\subsection{Triangle completion and an explicit invariant residual}
+
+Now \(X,Y\) are the triangle vectors. The unknowns
+\((a_1,b_1,c_1,p_1,r_1,s_1)\) are determined by the three right
+linear equations, the first two left equations, and the trace. Their matrix
+and right-hand side are
+\[
+ \mathcal T=\begin{pmatrix}
+ Y_1&0&0&Y_2&Y_3&0\\
+ 0&Y_2&0&-Y_1&0&Y_3\\
+ 0&0&Y_3&0&-Y_1&-Y_2\\
+ X_1&0&0&-X_2&-X_3&0\\
+ 0&X_2&0&X_1&0&-X_3\\
+ 1&1&1&0&0&0
+ \end{pmatrix},\qquad
+ \mathbf b=\begin{pmatrix}
+ -mY_1\\-2Y_1-mY_2\\-2Y_1-2Y_2-mY_3\\
+ -mX_1-2X_2-2X_3\\-mX_2-2X_3\\-m
+ \end{pmatrix}.
+\]
+Expansion of its determinant gives \(\det\mathcal T=Y_3E(X,Y)\),
+which is a unit on our open. Thus the solution is unique over every test
+ring. The omitted third left equation follows from
+\[
+ X^{\mathsf T}(MY+mY)=(X^{\mathsf T}M+mX^{\mathsf T})Y
+\]
+and the unit \(Y_3\).
+Define polynomial numerators, in the displayed coordinate order, by
+\[
+ (\Theta_a,\Theta_b,\Theta_c,\Theta_p,\Theta_r,\Theta_s)^{\mathsf T}
+       =\operatorname{adj}(\mathcal T)\mathbf b/Y_3.
+\]
+Each component of the numerator is divisible by \(Y_3\) in the integer
+polynomial ring; this can equivalently be checked by the determinant
+expansion just specified. Thus this is an explicit polynomial definition,
+not a choice of a rational solution. The completed matrix is \(M_1=\mathcal N/E\),
+where
+\[
+ \mathcal N=\begin{pmatrix}
+ \Theta_a&\Theta_p&\Theta_r\\
+ 2E-\Theta_p&\Theta_b&\Theta_s\\
+ 2E-\Theta_r&2E-\Theta_s&\Theta_c
+ \end{pmatrix}.
+\]
+Let \(G_{\rm num}=\tr(\mathcal N^2)-(m^2+2)E^2\) and
+\(Q_\triangle=[m^2]G_{\rm num}\). One has the polynomial identity
+\begin{equation}\label{geometry:trianglesyzygy}
+ G_{\rm num}=Q_\triangle F-2S H_{\rm tri}(X,Y,m).
+\end{equation}
+Here \(Q_\triangle\) is independent of \(m\), and the following
+orbit formulas give an explicit residual \(H_{\rm tri}=H_0+mH_1\).
+Write \(z_i=X_iY_i\), \(a_{ij}=X_iY_j+X_jY_i\). For a monomial
+\(f\), \(\Orb(f)\) denotes the sum of its distinct simultaneous
+\(S_3\)-images, permuting vertex and unordered-edge labels. Set
+\begin{align}
+ H_1={}&16\Orb(z_1z_2a_{12})+8\Orb(z_1a_{12}a_{23})
+          -4\Orb(a_{12}^3)+4\Orb(a_{12}^2a_{13}),\notag\\
+ H_0={}&16\Orb(z_1^2z_2)+16\Orb(z_1^2a_{23})+32z_1z_2z_3\notag\\
+ &-4\Orb(z_1z_2a_{12}^2)+16\Orb(z_1z_2a_{13})
+       -4\Orb(z_1a_{12}a_{13}a_{23})\notag\\
+ &+8\Orb(z_1a_{12}a_{23})+\Orb(a_{12}^4)+4\Orb(a_{12}^3)\notag\\
+ &-2\Orb(a_{12}^2a_{13}^2)-4\Orb(a_{12}^2a_{13})
+       +16a_{12}a_{13}a_{23}.
+ \label{geometry:invariants}
+\end{align}
+The identity \eqref{geometry:trianglesyzygy} is an identity after the
+bilinear substitution, with no algebraically independent extra bilinear
+variables. In particular
+\[
+ 4z_1z_2z_3+a_{12}a_{13}a_{23}
+        -z_1a_{23}^2-z_2a_{13}^2-z_3a_{12}^2=0
+\]
+holds identically. Equations \eqref{geometry:trianglesyzygy} and
+\eqref{geometry:invariants} are directly verified by replacing each
+\(\Theta\) with the adjugate definition and expanding; they are finite
+integer polynomial identities. The accompanying executable certificate
+performs exactly this expansion, including all six numerators, all seven
+linear/trace constraints, and the displayed orbit polynomial.
+
+Since \(2,S,E\) are units,
+\[
+ (F,\tr(M_1^2)-m^2-2)=(F,H_{\rm tri})
+\]
+after completion. Indeed
+\(E^2(\tr(M_1^2)-m^2-2)=Q_\triangle F-2SH_{\rm tri}\)
+exhibits both generator transformations. Lemma
+\ref{geometry:blockcriterion} now gives equivalence with the full
+trace-zero triangle involution.
+
+\subsection{The four-variable family, its cleared equations and exact open}
+
+Use \eqref{geometry:XY}, and use \(A,B\) for the path pairings from
+now on. The resulting family has four coordinates \((u_1,u_2,u_3,m)\)
+and exactly four rational equations:
+\begin{equation}\label{geometry:four}
+ \boxed{\begin{aligned}
+ H_p&=AB+4z_2=0,\\
+ L&=ABm+A(z_2+z_3)+B(z_1+z_2)=0,\\
+ F&=m^2+\sum_i z_i-1=0,\\
+ H_{\rm tri}&=H_0(z,a_1)+mH_1(z,a_1)=0.
+ \end{aligned}}
+\end{equation}
+In the last equation \((a_1)_{ij}=X_{1,i}Y_{1,j}+X_{1,j}Y_{1,i}\).
+Denote this localized scheme over \(R_{\mathbb Z}\) by \(\mathcal X\).
+The open is intrinsically defined by the temporal, completion and active
+edge units above. The next formulas give its exact polynomial inventory.
+
+Put
+\[
+ \Ab=q_2\alpha_1u_2^2+q_1\alpha_2u_1^2,\qquad
+ \Bb=q_3\alpha_2u_3^2+q_2\alpha_3u_2^2,\qquad
+ \overline S=Q\sum_i\alpha_i/q_i.
+\]
+Then
+\(A=\Ab/(q_1q_2u_1u_2)\) and
+\(B=\Bb/(q_2q_3u_2u_3)\). The full inventory is
+\begin{center}\small
+\begin{tabular}{p{.29\linewidth}p{.55\linewidth}r}
+\hline
+Intrinsic units&Cleared polynomial factors&Count\\\hline
+Temporal chart&\(u_i,\alpha_i,\beta_i\ (i=1,2,3)\)&9\\
+\(S\)&\(\overline S\)&1\\
+\(A,B\)&\(\Ab,\Bb\)&2\\
+Four path entries&\(q_1\alpha_2u_1^2,\ q_2\alpha_1u_2^2,
+q_2\alpha_3u_2^2,\ q_3\alpha_2u_3^2\)&4\\
+\(E_1\), six triangle entries&The seven polynomials defined immediately below&7\\\hline
+\end{tabular}
+\end{center}
+For example
+\[
+ p_0=2q_1\alpha_2u_1^2/\Ab,\qquad
+ 2-p_0=2q_2\alpha_1u_2^2/\Ab,
+\]
+and the other two path entries have the analogous formulas with \(\Bb\).
+Some listed factors are redundant on this open. They are retained, so no
+change of sector is hidden in simplification.
+
+For a triangle polynomial \(J=\sum c_{x,y,k}X^xY^ym^k\), define
+\[
+ b_i(J)=\max_{c_{x,y,k}\ne0}(x_i-y_i),\quad
+ c_i(J)=\max_{c_{x,y,k}\ne0}y_i,\qquad
+ \mathcal C_1(J)=\left(\prod_i\beta_i^{b_i(J)}q_i^{c_i(J)}\right)
+                      J(X_1,Y_1,m).
+\]
+Termwise use of \eqref{geometry:XY} shows that this is a polynomial:
+the exponents are \(b_i+y_i-x_i\ge0\) and \(c_i-y_i\ge0\).
+All clearing monomials are units on the temporal chart. The remaining
+seven factors are precisely
+\[
+ \begin{gathered}
+ \mathcal C_1(E),\quad
+ \tfrac12\mathcal C_1(\Theta_p),\quad
+ \tfrac12\mathcal C_1(2E-\Theta_p),\quad
+ -\tfrac12\mathcal C_1(\Theta_r),\quad
+ \tfrac12\mathcal C_1(2E-\Theta_r),\quad
+ \tfrac12\mathcal C_1(\Theta_s),\quad
+ -\tfrac12\mathcal C_1(2E-\Theta_s).
+ \end{gathered}
+\]
+The constant signs and factors \(2\) are units. Since the six completed
+triangle entries are \(\Theta/E\) or \((2E-\Theta)/E\), the polynomial
+and intrinsic opens agree over every test algebra.
+
+For a polynomial rather than rational presentation, adjoin five graph
+coordinates \(\xi,\eta,c_{12},c_{13},c_{23}\). Their defining equations
+are
+\begin{align}
+ q_1q_2u_1u_2\xi-\Ab&=0,&
+ q_2q_3u_2u_3\eta-\Bb&=0,\notag\\
+ q_iq_j\beta_i\beta_j
+ (c_{ij}-X_{1,i}Y_{1,j}-X_{1,j}Y_{1,i})&=0
+ &&(ij=12,13,23).
+ \label{geometry:graph}
+\end{align}
+Their coefficients on the new variables are units, so these variables
+adjoin unique regular sections. The other four polynomial generators are
+\begin{equation}\label{geometry:cleared}
+ \begin{split}
+ &q_2(\xi\eta+4\alpha_2/q_2),\\
+ &Q\{\xi\eta m+\xi(z_2+z_3)+\eta(z_1+z_2)\},\\
+ &Q(m^2+z_1+z_2+z_3-1),\\
+ &-Q^4\{H_0(z,c)+mH_1(z,c)\}.
+ \end{split}
+\end{equation}
+They are integer polynomials; the base units clear all denominators.
+Together \eqref{geometry:graph} and \eqref{geometry:cleared} give the
+nine-generator presentation of the same localized four-variable family.
+The complete coefficients of these generators and of all twenty-three
+factors are supplied, and the symbolic certificate checks the displayed
+definitions against every coefficient.
+
+\subsection{Binding the ten-equation source and the centre equations}
+\label{geometry:centre-source}
+
+An alternative polynomial presentation keeps the six triangle entries
+\((a,b,c,p,r,t)=(a_1,b_1,c_1,p_1,r_1,s_1)\). Put
+\[
+ M=\begin{pmatrix}a&p&r\\2-p&b&t\\2-r&2-t&c\end{pmatrix},\qquad
+ \mathcal K=\Ab(q_3\alpha_2+q_2\alpha_3)u_3
+             +\Bb(q_2\alpha_1+q_1\alpha_2)u_1.
+\]
+The ten literal source equations used in the exact computation are the
+following polynomials, in the coordinate order
+\((u_1,u_2,u_3,m,a,b,c,p,r,t)\):
+\begin{align}
+ &Q(m^2-1)+\sum_iq_{i+1}q_{i+2}\alpha_i,\notag\\
+ &\Ab\Bb+4Q\alpha_2u_1u_2^2u_3,\qquad
+ m\Ab\Bb+u_2\mathcal K,\notag\\
+ &\sum_{j=1}^3(M_{ij}+m\delta_{ij})\beta_jq_{j+1}q_{j+2}
+                    \quad(i=1,2,3),\notag\\
+ &\sum_{j=1}^3(M_{ji}+m\delta_{ij})\alpha_j\beta_{j+1}\beta_{j+2}
+                    \quad(i=1,2),\notag\\
+ &a+b+c+m,\notag\\
+ &a^2+b^2+c^2+2\{p(2-p)+r(2-r)+t(2-t)\}-m^2-2.
+ \label{geometry:tensource}
+\end{align}
+The indices on \(q,\alpha,\beta\) are cyclic modulo three. To verify
+scheme equivalence, set
+\(D_p=q_1q_2^2q_3u_1u_2^2u_3\), a temporal unit.
+The first three source rows are exactly \(QF,D_pH_p,D_pL\).
+The next three are \(Q(MY_1+mY_1)_i\); the next two are
+\((\beta_1\beta_2\beta_3)(X_1^{\mathsf T}M+mX_1^{\mathsf T})_i\).
+The last two are the trace and trace-square residuals. All multipliers
+are units. The triangle linear system is invertible on our declared
+\(Y_{1,3}E_1\) open. The omitted left equation and the inverse
+transformations in \eqref{geometry:trianglesyzygy} therefore prove
+equivalence with \eqref{geometry:four} as localized schemes. A separate
+exact integer-polynomial comparison checks every literal coefficient of
+\eqref{geometry:tensource}; it is not a modular comparison.
+
+One must also specify the representative used to eliminate \(m\). Since
+\(z_2=\alpha_2/q_2\) is a unit, define
+\[
+ m_* = C/(4z_2).
+\]
+The exact identity
+\begin{equation}\label{geometry:melimination}
+ L=AB(m-m_*)+m_*H_p
+\end{equation}
+gives \((H_p,L)=(H_p,m-m_*)\) on the path-completion open.
+The expression \(-C/(AB)\), obtained from \(L=0\) alone, agrees with
+\(m_*\) modulo \(H_p\); they are not identical rational functions.
+Indeed their difference is \(CH_p/(4z_2AB)\).
+
+At \(q^0=(4/3,12/11,3/4)\), eliminating \(m=m_*\) gives the three
+primitive integer centre numerators \(P_p,P_F,P_T\), of respective
+\(u_1\)-degrees \(2,6,10\). Their canonical scalar identities are
+\eqref{centre:source1}--\eqref{centre:source3}. Every multiplier is a
+declared unit. The binding checker reconstructs these rational residuals
+over \(\mathbb Q[u_1,u_2,u_3]\), checks zero remainder after division by
+the complete supplied polynomial, and verifies all multiplier factors.
+Thus these are equalities of localized ideals over \(\mathbb Q\).
+
+\subsection{Inverse reconstruction and the scheme-theoretic conclusion}
+
+\begin{theorem}\label{geometry:bridge}
+The real scheme \(\mathcal Q\) of
+\eqref{geometry:intrinsicopen} is isomorphic over \(\Spec K\) to
+\(\mathcal X\times_{\Spec R_{\mathbb Z}}\Spec K\).
+All imaginary connection coordinates vanish in its coordinate ring.
+The isomorphism is natural over arbitrary commutative \(K\)-algebras,
+including nonreduced algebras. It identifies actual real star-preserving
+connections with the real points of \(\mathcal X\); its complexification
+is the complexification of this real algebraic model.
+\end{theorem}
+\begin{proof}
+The forward construction has already been carried out in the universal
+localized coordinate ring. It reads
+\(d_i=x_i(0)+y_i(0)-1\), \(u_i=y_i(0)\), \(m=U_0(0)-1\), and
+the spatial \(M_t\) from the original coefficients. The component tables
+and unit pivots prove reality, common \(m\), the two block involutions
+and their traces. The temporal coordinate inverse, unique path and triangle
+completions, and the two residual identities prove all four equations
+\eqref{geometry:four}. The explicit factor inventory proves that this
+map lands in the exact declared open.
+
+Conversely, start with an \(\mathcal X\)-point over a \(K\)-algebra.
+Set \(d_i=q_iu_i/\beta_i\), and reconstruct all time--space entries
+by \eqref{geometry:temporal}; equivalently use the two vectors
+\eqref{geometry:XY}. Construct \(M_0\) by
+\eqref{geometry:pathcompletion} and \(M_1=\mathcal N/E\) by the
+adjugate formula. The inverse ideal identities in
+\eqref{geometry:pathsyzygy} and \eqref{geometry:trianglesyzygy}, with
+Lemma \ref{geometry:blockcriterion}, give both trace-zero block
+involutions. Set
+\[
+ U_0(0)=U_0(1)=1+m,\qquad
+ U_i(t)=1+(M_t)_{ii},\qquad v_{ij}(t)=(M_t)_{ij}
+       \quad(i\ne j\text{ spatial}),
+\]
+recover all \(w\) using \eqref{geometry:wreconstruction}, and set all
+imaginary coordinates to zero. This reconstructs all \(56\) complex
+coefficient values without any root choice.
+
+The lower-index symmetry verifies torsion freedom. Formula
+\eqref{geometry:sigma} and the inner connection formula give the
+bimodule connection. The temporal identities verify all time--space metric
+residuals; the active edge sums equal two and the inactive pair is zero;
+the block involutions verify every metric-core residual. The exhaustive
+metric table therefore proves \(E_{pqr}=0\) for every component.
+
+For star preservation, on an active spatial edge \(d_{ij}=1\) and the
+entries are real; on the inactive edge both entries vanish. On a temporal
+edge \eqref{geometry:temporal} gives \(x=dx'\), \(y=dy'\) and their
+opposite-slice counterparts. Finally
+\(\mathscr Q=-H_t^{-1}P_t^{\mathsf T}H_t\) is real with
+\(\mathscr Q^2=\Id\), so the zero-degree star block vanishes.
+The exhaustive star table verifies every \(T^i{}_{pq}=0\); the argument
+following \eqref{geometry:starcomponents} extends this to all forms and
+proves invertibility of \(\sigma\). All original support, trace, and
+regular-open conditions are satisfied.
+
+The forward and backward formulas are inverse: the temporal coordinate
+maps are inverse by \eqref{geometry:chartinverse}; the path and triangle
+entries are unique solutions with unit pivots; and the eliminated square
+coefficients have unique unit-leading linear equations. They commute with
+arbitrary maps of test algebras. They thus define inverse maps of localized
+coordinate rings, proving the asserted scheme isomorphism, not merely a
+bijection of classical points.
+\end{proof}
+
+In particular, after all four scales are fixed to one and
+\(q^0=(4/3,12/11,3/4)\), a real point counted later is an actual
+star-preserving connection in this precise sector. The complex count is
+the geometric count in the complexification of its real coordinate scheme.
+It does not assert that arbitrary complex points, with an independently
+imposed analytic conjugation operation, are star-preserving connections.
+The omitted exceptional parameters, other supports, other traces,
+completion-degenerate charts, and unmarked quotients are not part of the
+defined counting problem.
+
+\section{Preservation of the original QLC problem and the meaning of the sector}
+\label{integrity:section}
+
+Theorem~\ref{geometry:bridge} gives the scheme isomorphism. The following
+tables record how its two maps transport the geometric requirements:
+fixed data and sector restrictions, all inverted factors, and the original
+QLC residuals. The final subsection explains the geometric meaning of the
+chosen support and trace. The bimodule conventions are those of
+\cite{beggs-majid-star,majid-graphs}.
+
+\subsection{Fixed data, imposed restrictions and derived consequences}
+\label{integrity:choices}
+
+The base space has all sixteen vertices of $(\mathbb Z/2)^4$ and the
+four specified translation directions throughout. Spatial homogeneity
+restricts coefficients, not the algebra of functions or the differential
+calculus. The ordered frame and the two labelled slices are retained.
+The following distinctions prevent a consequence of the equations from
+being silently substituted for an additional sector assumption.
+
+\begin{center}\small
+\begin{tabular}{p{.23\linewidth}p{.32\linewidth}p{.36\linewidth}}
+\hline
+Item&Status before reduction&What is established afterwards\\\hline
+Calculus and metric&Fixed as in Section~\ref{geometry:model}; the four
+scales and $q_i$ are base parameters.&All bimodule, metric and star
+calculations use the same shifts and sign convention.\\
+Spatial homogeneity&Imposed on coefficients on each slice.&The resulting
+components still define connections on the full sixteen-point algebra.\\
+Spatial support&Both $13$ orientations vanish on slice zero; the ten
+specified orientations are units.&Exactly the path and triangle
+coupling patterns remain; active pairs have sum two.\\
+Trace&$\sum_i(U_i(t)-1)=0$ is imposed on each slice.&It becomes
+$\tr P_t=0$; it is not deduced from torsion or metric compatibility.\\
+Reality and star&The original star equations are imposed in real and
+imaginary coordinates.&Every imaginary coefficient vanishes in the
+localized coordinate ring; this is proved, not assumed.\\
+Regular open&The twenty-three intrinsic factors in
+\eqref{geometry:intrinsicopen} are inverted.&All subsequent denominators
+are units on precisely that open. Its excluded strata are not proved empty.\\
+Bimodule invertibility&Both Leibniz rules and star preservation are required.&
+$\sigma^{-1}=D\sigma D$ follows; no Yang--Baxter equation is added.\\\hline
+\end{tabular}
+\end{center}
+
+The independent assumptions in this table define the stated restricted
+problem. In particular the trace, support and regularity choices are
+not consequences of being a QLC. Conversely none is dropped when
+the four-variable scheme is counted. Fixing the four scales to one
+selects a metric in that problem; it is not a gauge quotient.
+
+\subsection{An explicit ledger for every inverted factor}
+\label{integrity:units}
+
+There are two kinds of units. The fixed base already inverts
+$2,q_i,q_i-1,\nu,\lambda_i$ and hence every $h_i(t)$.
+The connection sector additionally inverts the twenty-three factors
+of $\Delta_{\rm reg}$. The inventory below refers to the latter only.
+It retains even the redundant path factors.
+
+The temporal exchange is proved by all six identities in
+\eqref{geometry:chartinverse}. Thus the nine units
+$(d_i,q_i-d_i,q_i-d_i^2)$ are exchanged for
+$(u_i,\beta_i,\alpha_i)$, with inverse formulas in both directions.
+In particular $q_i-d_i$ corresponds to the inverse of $\beta_i$
+times a base unit; it need not be represented by a new polynomial
+factor beyond the temporal chart.
+
+For a triangle numerator $J$ write
+\[
+ W_J=\prod_i\beta_i^{b_i(J)}q_i^{c_i(J)},
+ \qquad \mathcal C_1(J)=W_JJ(X_1,Y_1,m).
+\]
+Each $W_J$ is a unit of the temporal localization. Denote the six
+active triangle numerators by
+\[
+ J_p=\Theta_p,\quad J_{2-p}=2E-\Theta_p,\quad
+ J_r=\Theta_r,\quad J_{2-r}=2E-\Theta_r,\quad
+ J_s=\Theta_s,\quad J_{2-s}=2E-\Theta_s.
+\]
+These are the exact adjugate polynomials of the triangle system,
+evaluated on its slice. The factors actually supplied in the coefficient
+files, and their pullbacks, are as follows.
+
+\begin{center}\small
+\begin{longtable}{p{.08\linewidth}p{.24\linewidth}p{.58\linewidth}}
+\hline
+No.&Polynomial factor&Exact connection-level interpretation\\\hline
+\endfirsthead
+\hline No.&Polynomial factor&Exact connection-level interpretation\\\hline
+\endhead
+1--3&$u_i$&$u_i=d_i(q_i-1)/(q_i-d_i)$, for $i=1,2,3$.\\
+4--6&$\alpha_i$&$\alpha_i=q_i(q_i-1)(q_i-d_i^2)/(q_i-d_i)^2$.\\
+7--9&$\beta_i$&$\beta_i=q_i(q_i-1)/(q_i-d_i)$.\\
+10&$\overline S$&$\overline S=QS_0=QS_1$.\\
+11&$\Ab$&$\Ab=q_1q_2u_1u_2 A$.\\
+12&$\Bb$&$\Bb=q_2q_3u_2u_3 B$.\\
+13&$q_1\alpha_2u_1^2$&$\Ab\,p_0/2$.\\
+14&$q_2\alpha_1u_2^2$&$\Ab\,(2-p_0)/2$.\\
+15&$q_2\alpha_3u_2^2$&$\Bb\,s_0/2$.\\
+16&$q_3\alpha_2u_3^2$&$\Bb\,(2-s_0)/2$.\\
+17&$\mathcal C_1(E)$&$W_E E_1$.\\
+18&$\mathcal C_1(J_p)/2$&$W_{J_p}E_1 p_1/2$.\\
+19&$\mathcal C_1(J_{2-p})/2$&$W_{J_{2-p}}E_1(2-p_1)/2$.\\
+20&$-\mathcal C_1(J_r)/2$&$-W_{J_r}E_1 r_1/2$.\\
+21&$\mathcal C_1(J_{2-r})/2$&$W_{J_{2-r}}E_1(2-r_1)/2$.\\
+22&$\mathcal C_1(J_s)/2$&$W_{J_s}E_1 s_1/2$.\\
+23&$-\mathcal C_1(J_{2-s})/2$&$-W_{J_{2-s}}E_1(2-s_1)/2$.\\\hline
+\end{longtable}
+\end{center}
+
+For instance, the factor in row 20 differs from the intrinsic active
+entry $r_1$ by the already invertible $-W_{J_r}E_1/2$.
+The same statement holds for every active-entry row. The temporal
+inverse formulas first establish the temporal chart, rows 10--12
+establish $S,A,B$, and row 17 establishes $E_1$. Rows 13--16 and
+18--23 then establish exactly the active-edge units. This order proves
+the equivalence of the opens without circular use of a denominator.
+
+Before reality has been established, the original real scheme uses
+$N(\Delta_{\rm reg})$, not an unsupported notion of a complex number
+being nonzero. The identity
+$z^{-1}=\bar z/N(z)$ proves the equivalence of the unit conditions
+over arbitrary real test algebras. After reality,
+$N(\Delta_{\rm reg})=\Delta_{\rm reg}^2$, and localizing at a square
+is identical to localizing at its factor: the inverse of the factor is
+$\Delta_{\rm reg}(\Delta_{\rm reg}^2)^{-1}$. Thus no reducedness
+assumption is concealed in the use of an open set.
+
+For completeness, all classes of division in the reconstruction are
+listed here; a determinant used to prove a unit is not an extra
+localizer.
+
+\begin{center}\small
+\begin{tabular}{p{.30\linewidth}p{.28\linewidth}p{.33\linewidth}}
+\hline
+Operation&Divisors&Justification\\\hline
+Eliminate the $24$ square coefficients&$\nu,A_i(t)$&Fixed metric units.\\
+Temporal coordinate changes&$d_i,q_i-d_i,q_i,\beta_i$&Temporal unit identities above.\\
+Split the rank-three block&$2,S$&Base and row 10.\\
+Path completion&$A,B,Y_{0,i}$&Rows 11--12 and temporal chart.\\
+Triangle completion&$Y_{1,3}E_1$&Temporal chart and row 17.\\
+Exchange scalar generators&$2,S,E_1^2,AB,(AB)^2$&The displayed inverse syzygies use units already listed.\\
+Adjoin graph coordinates&$q_iq_ju_iu_j$, $q_iq_j\beta_i\beta_j$&Base and temporal chart.\\
+Eliminate $m$&$4z_2$, $AB$&$z_2=\alpha_2/q_2$ and rows 11--12.\\
+Centre numerator binding&$u_i,\alpha_2,\beta_i$ and nonzero rationals&Exactly the factors in \eqref{centre:source1}--\eqref{centre:source3}.\\\hline
+\end{tabular}
+\end{center}
+
+The later primitive-coordinate circuit introduces further written
+denominators only after proving they are units in the already identified
+finite coordinate algebra. Its inverse certificates and the checks of
+the same twenty-three original factors are part of the centre proof;
+they do not define a smaller connection sector.
+
+\subsection{Both directions of the preservation argument}
+\label{integrity:ledger}
+
+To specify exactly what is transported, put $R_t=P_t^2-I$.
+The real reconstructed coefficients satisfy the following identities
+\emph{before} the equations $R_t=0$ are imposed:
+\begin{equation}\label{integrity:direct-residuals}
+ E_{ppr}(t)=-h_p(t)(R_t)_{pr},\qquad
+ T^i{}_{pp}(t)=-\frac{h_p(t)}{h_i(t)}(R_t)_{pi},
+\end{equation}
+and all off-diagonal-output metric and star components vanish.
+Here the temporal entries are the exact conic formulas, both blocks
+share $m$, and active spatial pairs have sum two; the inactive pair
+is zero. These are statements of rational identities in the metric
+and temporal localization with otherwise free spatial block entries.
+They are stronger than evaluating the residuals at selected solutions.
+The independent direct tensor checker described in the verification
+section recomputes these identities without importing the component-table
+or block-completion programs.
+
+\begin{center}\small
+\begin{tabular}{p{.20\linewidth}p{.36\linewidth}p{.35\linewidth}}
+\hline
+Original requirement&Forward implication&Reverse verification\\\hline
+Both Leibniz rules&Translation-degree preservation forces the inner
+formula with no $\gamma$ and determines $\sigma$.&The recovered
+$\sigma$ is a bimodule map, and the same inner formula supplies the
+rules on every vertex idempotent, hence every function.\\
+Torsion zero&The allowed lower indices become symmetric; all
+three-distinct coefficients vanish.&Reconstruct $C^i{}_{jk}=C^i{}_{kj}$;
+then $\wedge\nabla e^i=de^i=0$ and torsion is left linear.\\
+Metric compatibility&Unit-leading antisymmetric components eliminate
+each $w$ once; the exhaustive table yields the conics and block equations.&
+Conic identities cancel all off-diagonal outputs, and
+\eqref{integrity:direct-residuals} cancels all diagonal outputs.\\
+Star preservation&Mixed residuals first prove temporal reality and
+reciprocity; the degree-zero matrix identity then proves all reality.&
+All coefficients are real; the original star residuals vanish by
+\eqref{integrity:direct-residuals}, and $\sigma D\sigma D=I$
+extends basis preservation to every form.\\
+Support and trace&Active units force the edge sums; the trace becomes
+$\tr P_t=0$ without elimination of a branch.&Path and triangle formulas
+give the exact zero/unit support, both trace constraints and the same $m$.\\
+Open and multiplicity&The norm localization and every unit pivot are
+retained; no radical is taken.&The factor ledger and inverse formulas
+give the original localization over every test algebra.\\\hline
+\end{tabular}
+\end{center}
+
+The full forward chain has specific algebraic witnesses. The $24$
+antisymmetric metric equations have distinct unit pivots; the temporal
+relations give $dd'=1$ and force each imaginary coefficient to vanish;
+the two matrix inverses give the common $m$; and the path and triangle
+syzygies give inverse transformations of equation ideals. Uniqueness
+of both completions and of the eliminated $w$ values then proves
+that forward and reverse maps compose to the identity on every
+coefficient. These are the steps proved in Theorem~\ref{geometry:bridge},
+not additional assumptions on the counted points.
+
+Equivalently, for every commutative $K$-algebra $B$ there is a natural
+bijection
+\[
+ \mathcal X(B)\ \longleftrightarrow\
+ \left\{\begin{array}{c}
+ (\nabla,\sigma)\text{ satisfying the original two Leibniz rules,}\\
+ \wedge\nabla=d,\quad\nabla g=0,\quad
+ \nabla(\omega^*)=\sigma D\nabla\omega,\\
+ \text{and precisely the homogeneity, support, trace and units above}
+ \end{array}\right\}.
+\]
+On the left the base change from $R_{\mathbb Z}$ to $K$ is understood.
+This statement applies to dual numbers and other nonreduced algebras:
+it preserves infinitesimal multiplicities, not just field-valued
+solutions. Consequently each of the $204$ real points later counted
+reconstructs an actual pair $(\nabla,\sigma)$ satisfying the original
+QLC conditions. The $512$ complex points belong to the complexification
+of this real coefficient scheme; no analytic conjugation condition
+is imposed independently on its arbitrary complex points.
+
+\subsection{Why this path--triangle sector is geometrically interesting}
+\label{geometry:motivation}
+
+Define the \emph{spatial coupling graph} on the three marked directions
+$\{1,2,3\}$ by the active $v_{ij}$ pairs. This is a graph of
+connection coefficients, not a replacement for the sixteen-vertex
+base graph of the differential calculus. Its path $P_3$ at slice zero
+is minimally connected on those three directions; its triangle $K_3$
+at slice one adds exactly one edge and has one independent graph cycle.
+That is a controlled change from tree mixing to cyclic mixing within
+one unchanged geometry. A cycle of this coefficient graph alone
+proves no curvature or holonomy statement.
+
+The choice changes the completion mechanism in a precise way. The
+path has five spatial unknowns. Its left and right eigenvector equations
+determine them, so trace zero becomes a remaining compatibility equation
+$L=0$. The triangle has six spatial unknowns. The eigenvector equations
+have a universal dependence, and the trace completes the invertible
+six-by-six system with determinant $Y_{1,3}E_1$. The units $A,B,E_1,S$
+specify where these mechanisms are reversible. Their complements
+remain excluded strata, whose QLC classification is a separate problem.
+
+The slices are not chosen independently: the original temporal metric
+and star equations force the same $m$ and
+$X_{0,i}Y_{0,i}=X_{1,i}Y_{1,i}=\alpha_i/q_i$.
+Thus a path solution and a triangle solution cannot simply be paired
+arbitrarily. Both supports participate in the same reconstructed
+four-dimensional bimodule connection. In fact every temporal--spatial
+coefficient $v_{0i}(t)$ is a unit by \eqref{geometry:temporal}.
+Corollary~\ref{geometry:noproduct} consequently excludes an ordinary
+coordinate-product construction, even after a permutation of the four
+direction labels.
+
+There is also an obstruction to restricting these connections to a
+coordinate square. Let $\pi$ be the standard calculus projection to
+that face: fix the other bits in functions, retain directions $(0,i)$
+and kill the other one-forms. For a discarded spatial direction $j\ne i$,
+\eqref{geometry:wreconstruction} gives the exact coefficient
+\[
+ \operatorname{coeff}_{e^0\otimes e^0}
+       ((\pi\otimes\pi)\nabla e^j)
+ =C^j{}_{00}=w_{j0}(t)=-\frac{\nu x_j(1-t)}{A_j(t)}.
+\]
+These coefficients depend only on $t$, so fixing the other bits leaves
+this formula unchanged.
+The displayed coefficient is a unit by \eqref{geometry:temporal}, so
+the kernel of the quotient on forms is not preserved by the connection.
+Thus there is no induced connection on that coordinate-square quotient.
+At the metric-data level such a square has one constant coefficient and
+one nonconstant coefficient; it lies in the intermediate metric regime
+mentioned in \cite[Example~8.20, p.~598]{orig-book}. This observation
+does not exclude specializing the book's generic square formulas to
+subfamilies, or more general extension constructions. The quotient and
+ordinary-product obstructions concern the specified coordinate maps.
+
+\begin{proposition}[Balanced zero-translation tensor block]
+\label{geometry:balanced}
+On the declared real coefficient scheme,
+$\Pi_{t,\pm}=(I\pm P_t)/2$ are complementary idempotents of rank two.
+On the degree-zero tensor submodule generated by $e^i\otimes e^i$,
+the actual bimodule map has matrix
+\[
+ \sigma_{t,0}=\mathscr Q_t^{\mathsf T}=-H_tP_tH_t^{-1}.
+\]
+It satisfies $\sigma_{t,0}^2=I$, $\tr\sigma_{t,0}=0$ and
+$\det\sigma_{t,0}=1$, and its two eigensummands have rank two.
+\end{proposition}
+\begin{proof}
+The block equations give the complementary idempotents. Their traces
+are two, so their images are finite projective modules of rank two:
+over a residue field an idempotent has integer rank between zero and
+four, and equality of that rank with its trace two permits only rank
+two when $2$ is invertible. This proves the rank statement even over
+nonreduced test algebras. The component formula for $\sigma$ gives
+the degree-zero matrix $\mathscr Q_t^{\mathsf T}$. Transposing
+$\mathscr Q_t=-H_t^{-1}P_t^{\mathsf T}H_t$ gives the stated conjugacy.
+The rank-two splitting then gives the trace and determinant assertions.
+\end{proof}
+
+This gives the trace restriction a direct spectral interpretation
+in a tensor block of the connection. It does not declare $P_t$ itself
+to preserve the translation degrees of individual one-forms, or claim
+that either splitting is orthogonal for the metric.
+
+The mathematical motivation is therefore the coexistence of minimal
+tree-versus-cycle spatial mixing, coupled temporal data, a balanced
+tensor block and reversible reconstruction of genuine QLCs. At the
+specified rational metric, the theorem supplies an exact example of
+multiple star-preserving QLCs for one nondegenerate metric. It provides
+a controlled family for subsequent connection-dependent computations.
+The worked real connection at the end of Section~\ref{centre:section}
+provides a concrete instance of these coupled blocks and their active entries.
+No curvature calculation, action principle, continuum limit or
+physical uniqueness principle selecting this particular support has
+been established by the count.
+
+Finally, marking must not be confused with a multiplicative symmetry
+argument. The permutation group $S_3$ produces three distinct
+\emph{unoriented} path supports, since swapping its two endpoints
+stabilizes a path. There are six mixed support patterns only if the
+choice of which slice carries the path is included. This is a
+combinatorial statement, not a new count of QLCs. A permutation of
+spatial directions usually also permutes the anisotropic metric
+parameters, so it need not act on the same fixed-metric fibre. No
+factor of six, quotient count or enlarged-sector real count is
+inferred here.
+
+\section{The arithmetic control fibre and the generic degree}
+\label{generic:section}
+
+The generic degree will be proved from one finite arithmetic fibre, but a
+count of solutions in that fibre alone is insufficient. We must exclude
+the entire boundary of the \emph{same family}, including limits with
+varying metric parameters, and check its relative Jacobian. This section
+gives those two additional arguments. All finite-field computations below
+are in characteristic $p_*=65537$, not characteristic two.
+
+\subsection{A common arithmetic presentation and its proper closure}
+\label{generic:model}
+Set
+\[
+ R=\mathbb Z[q_1,q_2,q_3,
+ (2q_1q_2q_3(q_1-1)(q_2-1)(q_3-1))^{-1}],\qquad
+ b_*=(p_*,q_1-4,q_2-9,q_3-49)\in\Spec R.
+\]
+The inverted polynomial has residue $962\ne0$. In this section the
+control metric is $q_*=(4,9,49)$ over $\mathbb F_{p_*}$; it is distinct
+from the rational characteristic-zero metric $q^0$ used later.
+Write
+\[
+ \alpha_i=q_i-(u_i-1)^2,\quad \beta_i=q_i+u_i-1,\quad Q=q_1q_2q_3,
+ \quad D_\beta=Q\beta_1\beta_2\beta_3,
+\]
+\[
+ \Ab=q_2\alpha_1u_2^2+q_1\alpha_2u_1^2,\qquad
+ \Bb=q_3\alpha_2u_3^2+q_2\alpha_3u_2^2,
+\]
+and put
+\[
+ D_A=q_1q_2u_1u_2,\quad D_B=q_2q_3u_2u_3,\quad
+ D_{ij}=q_iq_j\beta_i\beta_j,
+ \quad N_{ij}=q_i\alpha_i\beta_j^2+q_j\alpha_j\beta_i^2.
+\]
+The five graph equations are
+\[
+ E_A=D_A\xi-\Ab,\quad E_B=D_B\eta-\Bb,\quad
+ E_{ij}=D_{ij}c_{ij}-N_{ij}\quad(ij=12,13,23).
+\]
+The remaining four graph equations are
+\begin{align}
+ H_p&=q_2\xi\eta+4\alpha_2=0,\label{generic:Hp}\\
+ L_p&=Q\xi\eta m+\xi R_{23}+\eta R_{12}=0,\label{generic:Lp}\\
+ T&=Q(m^2-1)+q_2q_3\alpha_1+q_1q_3\alpha_2+q_1q_2\alpha_3=0,
+ \label{generic:top}\\
+ H_{\rm graph}&=-Q^4\bigl(H_0(z,c)+mH_1(z,c)\bigr)=0.\label{generic:trianglegraph}
+\end{align}
+Here $z_i=\alpha_i/q_i$, and
+\[
+ R_{23}=q_1q_3\alpha_2+q_1q_2\alpha_3,\qquad
+ R_{12}=q_2q_3\alpha_1+q_1q_3\alpha_2.
+\]
+Here $H_0,H_1$ are the explicit invariant polynomials of the preceding
+reconstruction, not additional unspecified equations. Thus all nine
+equations are integer polynomials. Denote their ideal by $I$.
+
+Use the full 23-factor localization product $s$ from the declared sector.
+Its factors are the nine $u_i,\alpha_i,\beta_i$; the three
+$\Ab,\Bb,Q\sum_i\alpha_i/q_i$; the four path-entry numerators; and
+the seven triangle factors consisting of the cleared completion
+determinant and six active-entry numerators. Each is the polynomial
+obtained in the source reconstruction, including the stated unit
+normalizations. Let
+\[
+ G=\Spec\bigl((R[u_1,u_2,u_3,m,\xi,\eta,c_{12},c_{13},c_{23}]/I)_s\bigr).
+\]
+No factor is dropped in the argument.
+
+Put $h=u_1u_2u_3\beta_1\beta_2\beta_3$. On $D(h)$ all five graph
+denominators are units. Eliminating their unique sections identifies $G$
+scheme-theoretically with a localization $X$ of a four-equation family
+in $(u_1,u_2,u_3,m)$. Useful unnormalized source equations are
+\begin{align}
+ P_H&=\Ab\Bb+4Q\alpha_2u_1u_2^2u_3,\label{generic:PH}\\
+ P_L&=\Ab\Bb m+
+ u_2u_3(q_3\alpha_2+q_2\alpha_3)\Ab
+ +u_1u_2(q_2\alpha_1+q_1\alpha_2)\Bb,\label{generic:PL}\\
+ P_{\rm top}&=T,\label{generic:PT}\\
+ \Phi&=D_\beta^4\,
+  \mathcal H\left(\frac{\alpha_1}{\beta_1},
+                    \frac{\alpha_2}{\beta_2},
+                    \frac{\alpha_3}{\beta_3},
+                    \frac{\beta_1}{q_1},
+                    \frac{\beta_2}{q_2},
+                    \frac{\beta_3}{q_3},m\right),\label{generic:Phi}
+\end{align}
+where $\mathcal H(X,Y,m)=H_0(X_iY_i,X_iY_j+X_jY_i)
++mH_1(X_iY_i,X_iY_j+X_jY_i)$. Each displayed clearing multiplier is a
+unit on $X$. In particular, the support is not replaced by the support
+of a larger unsaturated compact system.
+
+Take the affine scheme closure of $X$ by saturating its four-equation
+ideal by the full localization product over $R$, and let
+\[
+ \overline X\subset\mathbb P^4_R,
+ \qquad[W:U_1:U_2:U_3:M],
+\]
+be its projective scheme closure. Both closures are formed \emph{before}
+specialization to $b_*$. The morphism $\overline X\to\Spec R$ is
+projective and finitely presented, hence proper. We prove
+\begin{equation}\label{generic:controlgoal}
+ \overline X_{b_*}=X_{b_*},\qquad
+ X_{b_*}\text{ is geometrically reduced of length }512,
+\end{equation}
+and verify the actual relative Jacobian on this fibre.
+
+\subsection{Exact arithmetic certificates and their meaning}
+\label{generic:certificates}
+The supplement under \texttt{certificates/generic/} supplies the full
+polynomials, not numerical samples of their values. A sparse polynomial
+is a list of integer coefficient--exponent pairs with an explicit
+variable order; univariate residues are in ascending coefficient order.
+Arithmetic in $\mathbb F_{p_*}[t]/(E)$ always means polynomial reduction
+modulo the displayed $E$. It is not assumed that $E$ is irreducible.
+
+The verifier \texttt{audit/generic\_certificate.py} reconstructs the
+equations from \eqref{generic:Hp}--\eqref{generic:Phi}, computes the
+stated substitutions, divisions and determinants, and checks every
+identity below. In particular its acceptance is based on equalities of
+polynomial coefficients and explicit unit identities, not on stored
+truth values or file digests. The finite data used in the proof have
+the following roles:
+\begin{center}\small
+\begin{tabular}{@{}lp{0.67\textwidth}@{}}\toprule
+Certificate & Exact mathematical content\\\midrule
+Finite chart boundary & All 26 nontrivial $u/\beta$ support words;
+four mixed B\'ezout identities, six single-$\beta$ B\'ezout identities,
+three double-$\beta$ unit ideals, and two endpoint quotient units.\\
+Exceptional lines & Eight complete double-$\alpha$ lines; the global
+saturation identity and one univariate B\'ezout identity per line.\\
+Finite projection & Exact pseudo-remainder and resultant identities;
+the squarefree projection polynomial of degree 642.\\
+Projection exclusion & Every factor of its degree-130 complement,
+including all degree-drop and zero-slope branches.\\
+Finite rational representation & A squarefree degree-512 polynomial,
+all coordinate residues, original equation residues and unit tests.\\
+Proper boundary & All global source coefficients, continuous pole-cone
+faces, two global colon identities and six signed one-pole eliminations.\\
+Graph Jacobian & All nine original graph equations, all 23 original
+factors, full $9\times9$ and $4\times4$ determinants and their inverses.\\
+\bottomrule\end{tabular}
+\end{center}
+Finite polynomial arrays too long to print are part of these certificates.
+The verification rules and the exhaustiveness argument are given next;
+the arrays are witnesses for those rules, not replacements for them.
+
+\subsection{All finite graph-chart boundary supports}
+\label{generic:chartboundary}
+Let $\Gamma$ be the closure of the graph of $X$ in
+$\overline X\times_R(\mathbb P^1_R)^5$. Its projection to
+$\overline X$ is proper and surjective on supports: its closed image
+contains the dense open $X$. Thus every proposed finite source boundary
+point has a graph lift after a residue-field extension.
+
+For a point in the closure of a finite-type open immersion over a
+Noetherian base, the DVR specialization lemma supplies a trait whose
+generic point lies in the open and whose closed point is the proposed
+point. We use this with arbitrary residue extensions of
+$\mathbb F_{p_*}$. The parameters of the trait reduce to $q_*$ but may
+vary along it. All the nonzero residue constants used below are therefore
+units on the trait. This standard closure lemma is recorded in
+\href{https://stacks.math.columbia.edu/tag/0CM2}{Stacks, Tag 0CM2}.
+
+At a finite source point $u_i,m$ are integral. At the control point
+$\beta_i-u_i$ has residue $3,8,48$ for $i=1,2,3$ respectively. Hence
+$u_i$ and $\beta_i$ cannot both vanish at one index. Use the letters
+$U,B,N$ for $u_i=0$, $\beta_i=0$, and neither zero. The complement of
+$D(h)$ consists of exactly the $3^3-1=26$ words other than $NNN$.
+
+First consider a vanishing endpoint $u_1$ with $u_2,u_3$ units. If
+$a=v(u_1)>0$, then $\Ab$ is a unit, $v(\xi)=-a$, and
+\eqref{generic:Hp} gives
+$v(\eta)=v(\alpha_2)+a\ge a$. The equation $E_B=0$ forces
+$\Bb=0$ in the residue field. Dividing \eqref{generic:Lp} by $\xi$
+on the generic point gives
+\[
+ R_{23}=-Q\eta m-(\eta/\xi)R_{12}.
+\]
+Both terms on the right have positive valuation, so $R_{23}=0$ in the
+residue field as well. The reflected endpoint gives
+$\Ab=R_{12}=0$. These statements allow arbitrarily unequal positive
+orders of the vanishing factors.
+
+The seven words with $U$ letters and no $B$ letters are excluded as follows:
+\begin{center}\small
+\begin{tabular}{@{}ll@{}}\toprule
+Word & Contradiction\\\midrule
+$UNN$ & $\Bb=R_{23}=0$ and the left endpoint quotient unit below.\\
+$NNU$ & $\Ab=R_{12}=0$ and the right endpoint quotient unit below.\\
+$NUN$ & Both path coordinates have poles, contradicting $H_p=0$.\\
+$UNU$ & Both path coordinates have poles, contradicting $H_p=0$.\\
+$UUN$ & In $L_p$, $\eta R_{12}$ is the unique pole;
+ $R_{12}(0,0,u_3)=2891\ne0$.\\
+$NUU$ & The reflected unique-pole argument;
+ $R_{23}(u_1,0,0)=3296\ne0$.\\
+$UUU$ & The unique finite triangle section contradicts the two trace equations.\\
+\bottomrule\end{tabular}
+\end{center}
+For the two endpoint quotient calculations, form
+\[
+ A_L=\mathbb F_{p_*}[u_2,u_3]/(\Bb,R_{23})|_{u_1=0},\qquad
+ A_R=\mathbb F_{p_*}[u_1,u_2]/(\Ab,R_{12})|_{u_3=0}.
+\]
+Both have dimension eight. On the $\beta$-open chart the triangle sections
+are regular; substitute them into $H_{\rm graph}$ and eliminate $m$
+against $T$. After clearing only unit denominators, the obstruction classes
+$g_L,g_R$ have invertible multiplication maps with determinants
+\[
+ \det M_{g_L}=35553,\qquad \det M_{g_R}=61639
+ \quad\text{in }\mathbb F_{p_*}.
+\]
+The certificate supplies the two eight-element monomial bases, all reduced
+coefficients and inverse classes satisfying $g_Lg_L^{-1}=g_Rg_R^{-1}=1$.
+A class with an inverse cannot vanish at a geometric point. This argument
+does not assume the quotient algebras are reduced.
+At $UUU$, the triangle sections are
+\[
+ (c_{12},c_{13},c_{23})=(59/36,339/196,824/441).
+\]
+After nonzero scalar normalizations the two trace equations are
+$4924-13357m=0$ and $1764m^2+2855=0$. The first forces $m=1070$,
+and the second has residue $18263\ne0$ there.
+
+There are twelve mixed $U/B$ words. The words $BUN,NUB$ give the middle
+double-pole contradiction; $UUB,UBU,BUU$ are the adjacent or separated
+$U$ contradictions just proved. At $UBB$ and $BBU$, respectively one
+path coordinate has a pole and the other has the finite nonzero residue
+$-56$ and $-11$; at $BUB$ both have poles. These contradict $H_p$.
+The four remaining words reduce to endpoint necessary pairs:
+\begin{center}\small
+\begin{tabular}{@{}llr@{}}\toprule
+Word & Necessary univariate pair & Resultant modulo $p_*$\\\midrule
+$UBN$ & $(\Bb,R_{23})|_{u_1=0,u_2=-8}$ &49478\\
+$UNB$ & $(\Bb,R_{23})|_{u_1=0,u_3=-48}$ &62173\\
+$BNU$ & $(\Ab,R_{12})|_{u_3=0,u_1=-3}$ &33484\\
+$NBU$ & $(\Ab,R_{12})|_{u_3=0,u_2=-8}$ &13379\\
+\bottomrule\end{tabular}
+\end{center}
+For each pair $(f,g)$, the supplied multipliers satisfy $af+bg=1$.
+For example the $UBN$ pair, with indeterminate $v=u_3$, is
+\[
+ f=-4104v^2+1152v+27648,\qquad
+ g=-36v^2+72v-12384,
+\]
+and its identity is
+\[
+ (30332v+32123)f+(15613v+26845)g=1
+ \quad\text{in }\mathbb F_{p_*}[v].
+\]
+All four identities are verified coefficientwise and therefore exclude
+points over every extension field.
+
+Next suppose that at least two $\beta_i$ vanish and no $u_i$ vanishes.
+For each of the three pairs, substitute $u_i=1-q_i$ into the five path
+equations $E_A,E_B,H_p,L_p,T$. The resulting polynomials generate the
+unit ideal in the remaining $u$ coordinate, $m,\xi,\eta$ over
+$\mathbb F_{p_*}$. The certificate lists these five polynomials and the
+exact finite-field elimination; its reduced Gr\"obner basis is $[1]$ in
+each case. The triple-$\beta$ word lies in these pair loci, so all four
+multiple-$B$ words are covered. No triangle coordinate is assumed finite
+in this calculation.
+
+It remains to consider the three words with exactly one $B$ and no $U$.
+If $\beta_i$ vanishes, its two incident triangle sections have poles,
+and the third is integral. From the graph equations,
+\[
+ \beta_i c_{ij}=\frac{\alpha_i\beta_j}{q_j}
+ +\frac{\alpha_j\beta_i^2}{q_i\beta_j}.
+\]
+Here $\alpha_i$ has the nonzero residue $q_i(1-q_i)$. The degree-four
+part of the triangle equation in the incident pair, up to a nonzero base
+unit, is $314(c_{ij}^2-c_{ik}^2)^2$. Multiplying the global equation by
+$\beta_i^4$ and taking its residue therefore forces
+\[
+ (\beta_j/q_j)^2=(\beta_k/q_k)^2,
+ \qquad\beta_j/q_j=\varepsilon\beta_k/q_k,
+ \quad\varepsilon\in\{1,-1\}.
+\]
+Thus there are precisely six necessary signed branches. Substitute each
+linear relation into the path equation and the two trace equations and
+clear the already unit coordinate denominators. The resulting path
+polynomial $f$ and division-free trace resultant $g$ have degrees
+\begin{center}\small
+\begin{tabular}{@{}lccc@{}}\toprule
+Vanishing factor & $\beta_1$ & $\beta_2$ & $\beta_3$\\\midrule
+Degrees $(\deg f,\deg g)$, for each sign &(6,14)&(4,10)&(6,14)\\
+\bottomrule\end{tabular}
+\end{center}
+Each of the six pairs has a supplied identity $af+bg=1$. In forming $g$
+no leading coefficient of the linear trace equation is inverted: if the
+two equations are $am+b=0$ and $cm^2+d=0$, the identity
+\begin{equation}\label{generic:traceelimination}
+ a^2(cm^2+d)-c(am-b)(am+b)=cb^2+a^2d
+\end{equation}
+proves the necessary equation even where $a=0$. The certificate reconstructs
+these six pairs from the original substituted equations before verifying
+their B\'ezout identities. All $7+12+4+3=26$ words are now excluded.
+Consequently the finite-source graph closure has no point on $V(h)$.
+
+\subsection{The eight exceptional lines on the remaining finite chart}
+\label{generic:exceptionallines}
+On $D(h)$ the graph coordinates are uniquely reconstructed as schemes.
+However, one must not divide a resultant factor that can vanish there.
+At the control point write $a_i=\alpha_i$. On $D(h)\cap V(P_H)$,
+\begin{equation}\label{generic:exceptionalsplit}
+ V(a_2\Bb)=V(a_1,a_2)\ \cup\ V(a_2,a_3).
+\end{equation}
+Indeed, $\Bb=0$ in \eqref{generic:PH} forces $a_2=0$, and then
+$P_H=q_2^2u_2^4a_1a_3$. Conversely either pair makes $P_H$ vanish.
+Thus the exceptional set is exactly the four lines
+\[
+ (u_1,u_2)\in\{-1,3\}\times\{-2,4\}
+\]
+and the four lines
+\[
+ (u_2,u_3)\in\{-2,4\}\times\{-6,8\}.
+\]
+Their intersections are retained. On the complement of
+\eqref{generic:exceptionalsplit}, $a_2,\Ab,\Bb$ are all units.
+
+To exclude each \emph{whole} line in the global closure we need an
+equation in the global saturated ideal, not saturation after specialization.
+Define
+\[
+ C=4u_2^2m+4u_2(u_1+u_3)
+    +\xi(u_3^2-u_2^2)+\eta(u_1^2-u_2^2).
+\]
+Direct expansion over the integer polynomial ring gives
+\begin{align}
+ Q\xi\eta C-4u_2^2L_p
+  ={}&4q_3\eta E_A+4q_1\xi E_B\notag\\
+   &+q_1q_3[\eta(u_1^2-u_2^2)+\xi(u_3^2-u_2^2)]H_p=:W_0,
+   \label{generic:coreidentity}\\
+ D_B\eta E_A+\Ab E_B
+  ={}&D_AD_B\xi\eta-\Ab\Bb.\label{generic:sectionidentity}
+\end{align}
+Combining them yields
+\[
+ Q\Ab\Bb C
+ =D_AD_B(4u_2^2L_p+W_0)
+   -QC(D_B\eta E_A+\Ab E_B)\in I.
+\]
+Since $Q,\Ab,\Bb$ are inverted on $G$, this proves $C\in I:s^\infty$
+over $R$. Every point of the specialized global closure must satisfy its
+specialization. No saturation--specialization interchange has been used.
+
+On each of the eight lines, $4u_2^2$ is a unit. Substitute the five graph
+sections into $C=0$ and solve uniquely for $m=M(v)$, with $v$ the free
+coordinate. Substitute this expression into $T$ and the actual triangle
+equation. Cancellation leaves denominators consisting of nonzero constants
+and powers of $v$, which are units on $D(h)$. The numerator pairs have
+the following degrees:
+\begin{center}\small
+\begin{tabular}{@{}lcrr@{}}\toprule
+Fixed coordinates & Free coordinate & Top numerator & Triangle numerator\\\midrule
+$(u_1,u_2)=(-1,-2)$&$u_3$&4&9\\
+$(u_1,u_2)=(-1,4)$&$u_3$&4&9\\
+$(u_1,u_2)=(3,-2)$&$u_3$&4&9\\
+$(u_1,u_2)=(3,4)$&$u_3$&4&9\\
+$(u_2,u_3)=(-2,-6)$&$u_1$&3&9\\
+$(u_2,u_3)=(-2,8)$&$u_1$&4&9\\
+$(u_2,u_3)=(4,-6)$&$u_1$&4&9\\
+$(u_2,u_3)=(4,8)$&$u_1$&3&9\\
+\bottomrule\end{tabular}
+\end{center}
+For example the first line gives
+$M(v)=(199v^2-202v-144)/(392v)$. The complete numerator polynomials
+and multipliers $A(v),B(v)$ are supplied for all eight lines; the verifier
+reconstructs them from \eqref{generic:coreidentity} and checks
+\[
+ A(v)T_C(v)+B(v)H_C(v)=1
+ \quad\text{in }\mathbb F_{p_*}[v].
+\]
+Thus every exceptional line, including every intersection, is empty in
+the specialized global closure.
+
+\subsection{An exhaustive finite projection on the allowed complement}
+\label{generic:projection}
+For this subsection only, let $P_H^c,P_0^c,P_\triangle^c$ denote the
+three primitive compact control polynomials supplied in
+\texttt{certificates/generic/compact/}. They are defined from the four
+source equations by eliminating the scalar $m$ without division. More
+explicitly, write the normalized source equations as
+\[
+ L=A_m m+B_m,\qquad \Phi_0=C_m m+D_m,
+ \qquad T_0=T_2m^2+T_{00}.
+\]
+The defining polynomial identities are
+\begin{align}
+ P_H&=2P_H^c,\notag\\
+ A_m\Phi_0-C_mL&=A_mD_m-C_mB_m=2P_\triangle^c,
+ \label{generic:compacttriangle}\\
+ A_m^2T_0-T_2(A_mm-B_m)L
+   &=T_2B_m^2+T_{00}A_m^2=-4P_0^c.\label{generic:compacttop}
+\end{align}
+For these compact identities the normalized polynomials are
+$L=P_L|_{q_*}$, $T_0=-P_{\rm top}|_{q_*}$, and $\Phi_0=\Phi|_{q_*}$;
+the path polynomial is $P_H^c=P_H|_{q_*}/2$. The nine-variable graph
+triangle equation, after substituting its sections and multiplying by
+$D_\beta^4$, equals $-Q^4\Phi$; here $Q=1764$ and
+$-Q^4=-9682651996416\ne0\pmod{p_*}$. The verifier checks all these
+normalizations against the displayed graph equations, not merely against
+the compact data.
+They give necessary compact equations even where $A_m=0$.
+
+Work on $D(h\alpha_2\Bb)$. In the variable $u_1$, the exact resultant is
+\begin{equation}\label{generic:firstresultant}
+ \operatorname{Res}_{u_1}(P_H^c,P_0^c)
+ =13108\,u_2^8\alpha_2^4\Bb^2 F(u_2,u_3)
+ \quad\text{in }\mathbb F_{p_*}[u_2,u_3].
+\end{equation}
+Only the displayed units are cancelled. The last nonconstant
+subresultant is $\ell_1u_1+\ell_0$; coefficient comparison also proves
+that it is the negative pseudo-remainder of $P_0^c$ by $P_H^c$.
+Thus every common compact root satisfies it, including specialized
+leading-coefficient degeneracies. Define the polynomial
+\[
+ C_{\rm proj}=\sum_{i=0}^{10}[u_1^i]P_\triangle^c
+                       (-\ell_0)^i\ell_1^{10-i}.
+\]
+If $\ell_1\ne0$, this is the denominator-cleared substitution
+$\ell_1^{10}P_\triangle^c(-\ell_0/\ell_1,u_2,u_3)$.
+If $\ell_1=0$, the necessary linear relation gives $\ell_0=0$;
+the same polynomial still vanishes. Hence every allowed compact point
+projects to $F=C_{\rm proj}=0$.
+
+The exact resultant of these two polynomials has $u_3$-degree 8568.
+Its monic squarefree part factors as
+\begin{equation}\label{generic:projectionfactor}
+ \operatorname{rad}\operatorname{Res}_{u_2}(F,C_{\rm proj})
+   =E(u_3)J(u_3),\qquad \deg E=512,\quad\deg J=130,
+ \quad\gcd(E,J)=1.
+\end{equation}
+This is a coefficient identity over $\mathbb F_{p_*}$, and $E,J$ are
+both supplied coefficientwise. The equality is used as a necessary
+projection cover, not as an assertion that all its roots lift.
+
+Here is the complete exclusion rule for the complementary factor $J$.
+Factor $J$ into its 37 irreducible factors $j$. For each, work in the
+finite field $k=\mathbb F_{p_*}[z]/(j)$ and compute in $k[y]$
+\[
+ G_y=\operatorname{rad}\gcd(F,C_{\rm proj}),\qquad
+ D_y=\gcd(G_y,\ell_1),\qquad L_y=G_y/D_y.
+\]
+These split every projected root into the zero-slope and nonzero-slope
+charts. For linear $j$, factor the resulting polynomials over
+$\mathbb F_{p_*}$; for the other factors the resulting nonconstant
+polynomials in $y$ are linear, as checked by the certificate. In each
+resulting residue field, substitute $y,z$ into \emph{all three} compact
+polynomials and form the radical common polynomial in $u_1$.
+If they all vanish identically, the certificate checks that one of
+$u_2,u_3,\alpha_2,\beta_2,\beta_3$ vanishes identically, so the branch
+is outside the allowed complement. Otherwise remove its common roots
+with
+\[
+ u_1,u_2,u_3,\alpha_2,\beta_1,\beta_2,\beta_3
+\]
+by repeated polynomial gcd and exact division. The remainder is a nonzero
+constant in every case. Thus there is no allowed $J$-root. The weighted
+degrees of the zero-slope and nonzero-slope projection parts are 129 and
+4 respectively. They count projected $(y,z)$ branches, so several $y$
+roots can lie over one root of $J$; they need not sum to $\deg J$ and
+are not counts of admissible source points.
+The certificate gives the full 37-factor inventory and every resulting
+branch, so neither a vanished slope nor an identically zero compact
+specialization is silently discarded.
+
+For the $E$ part, form the generally non-field algebra
+\[
+ A_*=\mathbb F_{p_*}[t]/(E(t)).
+\]
+All Euclidean elimination pivots used below are certified units in $A_*$.
+The monic common divisor of $F(y,t),C_{\rm proj}(y,t)$ is linear in $y$,
+giving a unique $u_2=r_2(t)$. The monic common divisor of
+$P_H^c(u_1,r_2,t),P_0^c(u_1,r_2,t)$ is linear in $u_1$, giving a unique
+$u_1=r_1(t)$. Finally $A_m(r_1,r_2,t)$ is a unit and gives
+$m=r_m(t)=-B_m/A_m$. The three degree-below-512 residue arrays are
+included in the certificate. Direct substitution proves every compact
+and original source equation. Moreover,
+\[
+ \deg E=512,\quad\gcd(E,E')=1,
+\]
+and all 23 original localization factors evaluate to units in $A_*$.
+For each factor $f$, this is checked as a polynomial inverse identity
+$f(t)v_f(t)\equiv1\pmod E$, not as a nonzero value at one sample.
+The source Jacobian is a unit as well, as detailed below.
+
+The two linear gcd identities prove uniqueness of every allowed lift
+above each root of $E$. Conversely the explicit residues provide such
+a lift for every root. Thus exactly 512 geometric points remain. The
+eight exceptional lines and all 26 chart supports have already been
+excluded. Since $I:s^\infty$ and $I$ agree after localization at $s$,
+the reconstructed points lie on the specialized global closure with the
+same local scheme structure. The Jacobian unit proves that these local
+rings are reduced, not merely that their support has size 512.
+
+\subsection{Genuine source infinity, including moving-base limits}
+\label{generic:infinity}
+Suppose a proposed point of $\overline X_{b_*}$ has $W=0$. Apply the
+DVR closure lemma as above. At least one of $u_1,u_2,u_3,m$ has a pole:
+otherwise $[1:u_1:u_2:u_3:m]$ extends in the affine chart, and
+separatedness of projective space forbids a different projective limit.
+Set
+\[
+ r_i=\max(0,-v(u_i)),\qquad r_m=\max(0,-v(m)).
+\]
+The four global polynomials \eqref{generic:PH}--\eqref{generic:Phi}
+have respectively 23,55,8,1198 monomials after grouping by exponents
+in $(u_1,u_2,u_3,m)$. Every grouped coefficient specializes to a nonzero
+element at $b_*$. This is checked for every coefficient, including all
+164616 integer monomials in the global expansion of $\Phi$.
+Consequently these coefficients are units on any moving-base trait;
+the following initial-face arguments do not require the parameters to
+be constant along that trait. We express the control-field faces in
+the scalar normalization $P_H^c=P_H|_{q_*}/2$,
+$T_0=-P_{\rm top}|_{q_*}$ and $\Phi_0=\Phi|_{q_*}$; all these changes are
+by nonzero control-field scalars. The roles and normalizations are:
+\begin{center}\small
+\begin{tabular}{@{}lll@{}}\toprule
+Role & Control polynomial / checker key & Centre numerator / file\\\midrule
+Path & $P_H|_{q_*}/2=P_H^c$ / \texttt{PH4} & $P_p$ / \texttt{Hp.txt}\\
+Scalar path & $P_L|_{q_*}=L$ / \texttt{PL4} & eliminated by $m=m_0$\\
+Top & $-P_{\rm top}|_{q_*}=T_0$ / \texttt{FT4} & $P_F$ / \texttt{F.txt}\\
+Triangle & $\Phi|_{q_*}=\Phi_0$ / \texttt{PTH4} & $P_T$ / \texttt{Htriangle.txt}\\
+\bottomrule\end{tabular}
+\end{center}
+The control column is over $\mathbb F_{p_*}$ at $q_*$; the centre column
+is over $\mathbb Q$ at $q^0$ after scalar elimination. It records the
+roles of different polynomial arrays. The exact centre multipliers are
+\eqref{centre:source1}--\eqref{centre:source3}. In particular the generic
+top equation is denoted $P_{\rm top}$, and $P_T$ denotes the centre
+triangle numerator.
+
+The leading part of the top equation, up to a nonzero scalar, is
+\[
+ 441u_1^2+196u_2^2+36u_3^2-1764m^2.
+\]
+The largest positive pole order in this equation must occur at least
+twice. In particular $r_m\le\max_i r_i$, and $m$ cannot be the only
+pole. If all three $u_i$ have positive pole order, the path equation has
+the unique dominant monomial $377u_1^2u_2^4u_3^2$, a contradiction.
+
+For exactly two positive $u$-pole orders, the following componentwise
+maximal faces apply throughout the \emph{entire} positive rate cone:
+\begin{center}\small
+\begin{tabular}{@{}lll@{}}\toprule
+Pole coordinates & Path factor in the finite coordinate & Triangle factor\\\midrule
+$u_2,u_3$ &$13u_1^2-18u_1-27$&$(u_1+3)^4$\\
+$u_1,u_3$ &$(13u_2^2-8u_2-32)(29u_2^2-49u_2-196)$&$(u_2+8)^4$\\
+$u_1,u_2$ &$29u_3^2-9u_3-216$&$(u_3+48)^4$\\
+\bottomrule\end{tabular}
+\end{center}
+Only nonzero scalar factors and powers of the pole coordinates have
+been suppressed. Every other $m$-free monomial has coordinatewise exponents no larger
+than the displayed maximal pair and at least one strict inequality.
+Thus the same face applies throughout the positive rate cone.
+The triangle face forces the finite residue to be
+$-3,-8,-48$ respectively, where the displayed path factors are
+$144$, $864\cdot2052$, and $67032$, all nonzero modulo $p_*$.
+There are 501 $m$-linear triangle monomials. Their exponents in either
+positive coordinate are at most seven, while the $m$-free maximal
+face has exponents $(8,8)$. Their weighted deficit is at least
+\[
+ r_i+r_j-r_m\ge\min(r_i,r_j)>0.
+\]
+Thus arbitrary unequal rates, the equality wall, and an additional
+$m$ pole cannot change this face. Finite coordinates with positive
+valuation, and hence zero residue, are included by the displayed
+polynomial conditions.
+
+Finally suppose exactly one $u_i$ has positive pole order. The top
+equation forces $r_m=r_i$ and, at the leading coefficient level,
+\[
+ m/u_1=\pm1/2,\qquad m/u_2=\pm1/3,\qquad m/u_3=\pm1/7.
+\]
+For any global polynomial
+$f=\sum_{\alpha,\ell}a_{\alpha,\ell}(q)u^\alpha m^\ell$ occurring here,
+define the one-pole chart polynomial by
+\[
+ d_i(f)=\max_{a_{\alpha,\ell}\ne0}(\alpha_i+\ell),\qquad
+ f^{\infty,i}(\widehat u_i,M)=
+ \left.t^{d_i(f)}f(u_i=t^{-1},m=M/t,\widehat u_i;q)
+ \right|_{t=0,\,q=q_*}.
+\]
+Here $\widehat u_i$ denotes the two remaining $u$ coordinates. All grouped
+coefficients are units on the moving-base trait, so the same weighted
+support applies before and after reduction. This formula is polynomial
+in the finite coordinates, including zero residues, and defines
+$\Phi^{\infty,i}$ in particular.
+
+For an endpoint $i=1$ or $3$, put $t=1/u_i$ and $M=m/u_i$.
+The other source coordinates and $M$ are integral. Let
+\[
+ F_H=t^2P_H,\qquad F_L=t^3P_L,\qquad
+ E_1=\Bb,\quad E_3=\Ab,
+\]
+\[
+ D_i=q_i\alpha_2-q_2u_2^2,\qquad N_i=MD_i-q_2u_2.
+\]
+At $t=0$ the two chart equations give $E_iD_i=E_iN_i=0$.
+If $E_i\ne0$, then $D_i=N_i=0$ forces $u_2=0$ and then
+$D_i=q_i(q_2-1)\ne0$. Therefore $E_i=0$.
+
+Exact division over $\mathbb Z[q_1,q_2,q_3]$ gives a 269-term
+polynomial $K_i$ for each endpoint satisfying
+\begin{equation}\label{generic:endpointcolon}
+ t u_2K_i=D_iF_L-N_iF_H.
+\end{equation}
+On the trait's generic point $t$ and $u_2$ are nonzero, so $K_i=0$
+there and then in the valuation ring. This uses neither division by the
+residue of $u_2$ nor saturation after specializing $t=0$.
+For each sign of $M$, eliminate one finite coordinate from
+\[
+ E_i=0,\quad K_i|_{t=0}=0,\quad \Phi^{\infty,i}=0.
+\]
+The exact pairs of equations and the eliminated coordinate are:
+\begin{center}\small
+\begin{tabular}{@{}clll@{}}\toprule
+$i$ & Two pairs & Eliminate & Retain\\\midrule
+$1$ & $(E_1,K_1|_{t=0}),\ (E_1,\Phi^{\infty,1})$ & $u_2$ & $u_3$\\
+$2$ & $(P_H^{\infty,2}/2,P_L^{\infty,2}),\ (P_H^{\infty,2}/2,\Phi^{\infty,2})$
+ & $u_1$ & $u_3$\\
+$3$ & $(E_3,K_3|_{t=0}),\ (E_3,\Phi^{\infty,3})$ & $u_1$ & $u_2$\\
+\bottomrule\end{tabular}
+\end{center}
+All entries are reduced at $q_*$ and at each signed value of $M$ above;
+the factor $1/2$ is the control path normalization. The endpoint
+resultant degrees are 18 and 32, and the middle-chart degrees are 8 and 32.
+For all six signed cases the
+certificate supplies their complete coefficient arrays $A,B$ and
+multipliers $U,V$ satisfying
+\[
+ UA+VB=1\quad\text{in }\mathbb F_{p_*}[z].
+\]
+The verifier first reconstructs each resultant from the actual chart
+polynomials by finite-field Sylvester determinants and interpolation
+under a checked degree bound, and only then checks the unit identity.
+A common chart root makes both resultants vanish even if a specialized
+leading coefficient drops: this is the polynomial Sylvester identity,
+not division by that leading coefficient. Each signed chart is therefore
+empty over the algebraic closure.
+
+The cases of zero, one, two and three positive $u$-pole orders exhaust
+every possible pole vector. We have proved
+\begin{equation}\label{generic:noinfinity}
+ \overline X_{b_*}\cap V(W)=\varnothing.
+\end{equation}
+
+\subsection{The actual relative Jacobian and the finite \texorpdfstring{\'etale}{etale} neighbourhood}
+\label{generic:jacobian}
+In the algebra $A_*=\mathbb F_{p_*}[t]/E$, reconstruct all nine
+coordinates by the preceding rational representation and the five graph
+sections. Differentiate \emph{all nine original graph equations} with
+respect to their nine variables, substitute these residues and compute
+the determinant by a division-free subset recurrence. Explicitly, for a
+matrix $J$ over $A_*$, set $d_\varnothing=1$ and, for a column subset
+$S$ of size $k$,
+\[
+ d_S=\sum_{j\in S}(-1)^{\#\{\ell\in S:\ell>j\}}
+                  J_{k,j}d_{S\setminus\{j\}}.
+\]
+Then $d_{\{1,\ldots,9\}}=\det J$. This uses no pivot divisions and
+therefore remains valid in the generally reducible algebra $A_*$.
+The resulting determinant has a supplied polynomial inverse modulo $E$.
+Independently, differentiate the four actual source equations in their
+four variables. Their determinant is also a unit, and elimination of the
+five graph-section rows verifies the Schur-complement equality with the
+nine-variable determinant. The coefficients of every one of the 23
+original factors are evaluated afresh in the same algebra and each
+product with its supplied inverse reduces to one. These tests certify
+the actual original open and Jacobian, rather than those of a convenient
+replacement system.
+
+\begin{proposition}\label{generic:controlfibre}
+The whole projective control fibre is equal to the original localized
+source fibre. It is geometrically reduced of length 512, and the original
+source morphism is \'etale at each of its points.
+\end{proposition}
+\begin{proof}
+The proper graph projection reduces every finite source boundary point
+to the graph boundary. Section~\ref{generic:chartboundary} excludes
+$V(h)$. On $D(h)$ the graph is a regular closed section; the eight-line
+argument and the exhaustive projection calculation then exclude all
+remaining localization boundaries and leave exactly the reconstructed
+512 admissible points. Equation~\eqref{generic:noinfinity} excludes
+every point outside the finite source chart. Hence the entire support
+of $\overline X_{b_*}$ lies in $X$.
+
+An open subscheme containing every point of a scheme is the entire
+scheme. Restriction of global scheme closure to an open commutes with
+the closure construction, and localization commutes with base change.
+Since $(I:s^\infty)_s=I_s$ before specialization, the control fibre
+has precisely the source scheme structure at these points; no nilpotent
+or embedded part is dropped. The source Jacobian units prove that all
+these local rings are reduced. They also prove relative \'etaleness
+by the square Jacobian criterion: there are nine equations in nine
+graph variables, or equivalently four equations in four source
+variables, with an invertible determinant. This criterion includes
+flatness; reducedness of a special fibre alone would not suffice.
+\end{proof}
+
+\begin{theorem}\label{generic:degree}
+For the declared marked localized source family there is a nonempty
+base open $U\subset\Spec R$, containing $b_*$, such that
+\[
+ \overline X_U=X_U\longrightarrow U
+ \quad\text{is finite \'etale of rank }512.
+\]
+In particular its characteristic-zero generic algebra over
+$\mathbb Q(q_1,q_2,q_3)$ has dimension 512 and is \'etale. After
+extension to an algebraic closure its generic fibre has exactly 512
+reduced geometric points. The source is not required to be irreducible.
+\end{theorem}
+\begin{proof}
+Let $O$ be the \'etale locus of $X$, an open subscheme of
+$\overline X$. By Proposition~\ref{generic:controlfibre}, the entire
+control fibre lies in $O$. The closed complement
+$Z=\overline X\setminus O$ has closed image in the base because
+$\overline X$ is proper. This image misses $b_*$. Remove it and call
+the remaining nonempty open $U$. Then
+$\overline X_U=O_U=X_U$, so this morphism is both proper and \'etale.
+An \'etale morphism is locally quasi-finite; a proper locally
+quasi-finite morphism is finite. A finite \'etale algebra is finite
+locally free, with locally constant rank. The open $U$ is irreducible
+because $R$ is a domain, and its rank is 512 at $b_*$. It therefore
+has rank 512 everywhere on $U$, in particular at the characteristic-zero
+generic point. This proves the theorem.
+\end{proof}
+
+The standard scheme-theoretic ingredients used here are restriction of
+scheme closure to opens
+(\href{https://stacks.math.columbia.edu/tag/01R5}{Stacks, Tag 01R5}),
+the square Jacobian criterion
+(\href{https://stacks.math.columbia.edu/tag/02GU}{Tag 02GU}),
+proper and locally quasi-finite implies finite
+(\href{https://stacks.math.columbia.edu/tag/02LS}{Tag 02LS}), and finite
+\'etale local freeness
+(\href{https://stacks.math.columbia.edu/tag/02K9}{Tag 02K9}). The finite
+degree conclusion concerns this precise localization and marking; it
+asserts no unmarked quotient, full moduli classification or physical
+multiplicity.
+
+\section{A uniform length bound at every finite fibre}
+\label{length:section}
+
+The generic degree computed in the preceding section is not by itself an
+upper bound at a special metric. The following argument supplies precisely
+the missing specialization statement. It applies to the original square
+presentation, not to a determinantal plane quotient.
+
+\begin{lemma}[Finite fibres of a square family]\label{length:bound}
+Let $A$ be a Noetherian integral $\mathbb Q$-algebra, $K=\operatorname{Frac}(A)$,
+and
+\[
+ B=A[x_1,\ldots,x_n,1/\Delta]/(f_1,\ldots,f_n),
+ \qquad f_i,\Delta\in A[x_1,\ldots,x_n].
+\]
+Suppose $\dim_K(B\otimes_AK)=d<\infty$. If the entire fibre over
+$s\in\Spec A$ is finite, then
+\[
+ \dim_{\kappa(s)}(B\otimes_A\kappa(s))\le d.
+\]
+The statement includes all multiplicities and does not assume properness,
+reducedness of the special fibre, or that $B$ is finite as an $A$-module.
+\end{lemma}
+\begin{proof}
+The empty fibre satisfies the assertion. Otherwise write its finitely many
+support points as primes $\mathfrak p_1,\ldots,\mathfrak p_k$ of $B$.
+They lie in the quasi-finite locus $U$ of $\Spec B\to\Spec A$. This locus
+is open by the quasi-finite-locus theorem \cite{stacks-qf}. Write the
+complement as $V(J)$. For every $i$, $J\not\subset\mathfrak p_i$.
+Finite prime avoidance gives $h\in J$ outside all the $\mathfrak p_i$.
+Consequently $D(h)\subset U$ and $D(h)$ contains the whole special fibre.
+The image of $h$ is outside every maximal ideal of its Artinian coordinate
+algebra; it is therefore a unit. Localizing at $h$ preserves that entire
+fibre as a scheme, including its nilpotents.
+
+Choose a polynomial representative $H$ with $h=H/\Delta^j$ in $B$.
+Then, canonically,
+\[
+ B_h=A[x_1,\ldots,x_n,1/(\Delta H)]/(f_1,\ldots,f_n).
+\]
+Its morphism to $\Spec A$ is locally quasi-finite and has a localized
+square polynomial presentation. The square-presentation criterion for
+quasi-finite syntomic morphisms \cite{stacks-square}, condition (4)
+implying (2), says that this morphism is flat. This use of flatness does
+not assume the base regular. Introducing one inverse variable replaces
+the presentation by $n+1$ variables and $n+1$ equations and gives the
+same criterion.
+
+The remaining argument bounds fibre dimension for a flat module that
+need not be finitely generated. Let $M=B_h$ as an $A$-module. Its generic fibre is a localization of the
+finite-dimensional algebra $B\otimes_AK$, so it has dimension at most $d$.
+No finiteness of $M$ as an $A$-module has been inferred. Put $N=d+1$.
+Since $N!$ is invertible in $A$, the antisymmetrizer
+\[
+ e=\frac1{N!}\sum_{\pi\in S_N}\operatorname{sgn}(\pi)\pi
+       \quad\text{on }M^{\otimes_A N}
+\]
+is an idempotent whose image is canonically $\bigwedge_A^N M$.
+Indeed, it annihilates repeated arguments and descends through the
+exterior quotient, whose composition with the descended map is the
+identity. Thus this exterior power is a direct summand of a flat module
+and is flat. Over the domain $A$ it is consequently torsion-free.
+Its localization to $K$ is zero, since $\dim_K(M\otimes_AK)\le d$.
+A torsion-free module over a domain injects into its generic localization,
+so $\bigwedge_A^N M=0$.
+
+Exterior powers commute with base change. Therefore
+\[
+ \bigwedge_{\kappa(s)}^N(M\otimes_A\kappa(s))=0,
+\]
+which forces the vector-space dimension to be at most $N-1=d$.
+The localization at $h$ preserved the full original special fibre,
+so this is the required length bound.
+\end{proof}
+
+\begin{corollary}\label{length:application}
+Every finite fibre of the declared localized connection family in
+characteristic zero has scheme length at most $512$.
+\end{corollary}
+\begin{proof}
+After fixing the four invertible scales, use the integral metric base
+\[
+ A=\mathbb Q[q_1,q_2,q_3,(q_1q_2q_3\prod_i(q_i-1))^{-1}].
+\]
+The scheme isomorphisms in Section~\ref{geometry:model} give four source
+variables $(u_1,u_2,u_3,m)$ and the four rational equations
+\[
+ m^2+S-1=0,\quad AB+4z_2=0,\quad
+ ABm+A(z_2+z_3)+B(z_1+z_2)=0,\quad H_0+mH_1=0.
+\]
+Here all quantities are the explicit functions defined in that section.
+Multiply each equation by its denominator and combine those denominators
+with the numerators of all inverted factors into a single $\Delta$.
+On $D(\Delta)$ every multiplier is a unit. Hence this gives a square
+presentation of exactly the same scheme, not only the same field-valued
+points. Its generic algebra has dimension $512$ by
+Theorem~\ref{generic:degree}. Lemma~\ref{length:bound}, with $n=4$,
+proves the assertion. The same argument after base extension to
+$\mathbb C$ gives the geometric-fibre statement.
+\end{proof}
+
+For clarity, a finite fibre has not yet been proved to have length
+\emph{equal} to $512$. For example, the square family
+$\mathbb Q[t,x]/(tx^2+x)$ has generic length two and special length one
+at $t=0$. The exact equality below therefore needs both finiteness and
+512 distinct lifted points. Neither a generic degree nor a list of
+modular points is silently substituted for these two obligations.
+
+\section{The exact fibre at a rational metric}\label{centre:section}
+We now specialize to
+\[
+ q^0=(4/3,12/11,3/4)
+\]
+and keep the four scale parameters equal to one. Let $C$ be the rational
+coordinate algebra of the original marked localized coefficient scheme at
+this metric. Thus every original open condition remains inverted; $C$ is
+not the algebra of the unfiltered projection locus. We prove finiteness
+first, before applying the length bound of Lemma~\ref{length:bound}. This
+order prevents a generic degree from being used as an unjustified bound
+on an infinite exceptional fibre.
+
+All large integer polynomials used below are supplied in full, with
+ascending univariate coefficient arrays and expanded multivariate integer
+coefficients, in \path{certificates/centre/}. The descriptions below define
+the exact finite identity tests; no numerical root approximation or prior
+review verdict is needed. In particular the two source minors, the
+eliminant, its two factors, the reconstruction cofactors and all modular
+coordinate residues are actual delivered polynomials.
+
+\subsection{A two-generator plane module proves finiteness}
+Use the scalar elimination and inverse reconstruction established in the
+source reduction, and write $y=u_2$, $z=u_3$, $v=1/u_1$. Denote the three
+primitive integer numerator polynomials after eliminating $m$ by
+\[
+ P_p,P_F,P_T\in\mathbb Z[u_1,y,z].
+\]
+Their degrees in $u_1$ are $2,6,10$, respectively. In terms of the source
+quantities $\zeta_j=1-(u_j-1)^2/q_j$, the eliminated scalar is
+\[
+ m_0=\frac{A(\zeta_2+\zeta_3)+B(\zeta_1+\zeta_2)}{4\zeta_2},\quad
+ A=\zeta_1u_2/u_1+\zeta_2u_1/u_2,\quad
+ B=\zeta_2u_3/u_2+\zeta_3u_2/u_3.
+\]
+Here $\zeta_2$ is already a unit. The files \path{Hp.txt}, \path{F.txt}
+and \path{Htriangle.txt} contain $P_p,P_F,P_T$, with the source meanings
+specified by that reduction.
+
+Define
+\begin{align*}
+ D&=27y^2z^2-32y^2z+4y^2-22yz^2-z^2,\\
+ J&=11y^2-22y-1,\qquad K=20y^2-22y-1,\qquad E=3D+8zJ.
+\end{align*}
+For clarity, the exact source-to-file identities at this metric are
+\begin{align}
+ H_p&=\frac{P_p}{144u_1u_2^2u_3},\label{centre:source1}\\
+ m_0^2+S-1&=\frac{P_F}{2304u_1^2u_2^2u_3^2J^2},\label{centre:source2}\\
+ \mathcal H_0+m_0\mathcal H_1
+ &=\frac{P_T}{20736u_1u_2u_3J
+ (4u_3-1)^4(11u_2+1)^4(3u_1+1)^4}.\label{centre:source3}
+\end{align}
+These rational identities are checked by complete coefficient comparison
+in Section~\ref{geometry:centre-source}. Their denominators are products
+of declared units: $J=-11\alpha_2$, and the three linear factors are
+$4\beta_3,11\beta_2,3\beta_1$. In these identities $m_0$ is the
+displayed $C_p/(4\zeta_2)$, where
+$C_p=A(\zeta_2+\zeta_3)+B(\zeta_1+\zeta_2)$. The alternative
+$-C_p/(AB)$ agrees with it on $H_p=0$; it is not substituted off that
+equation when deriving these numerator files.
+The identities $D=-12yzB$ and $J=-12\zeta_2$ show that every original
+point is on the open with coordinate ring
+\[
+ R=\mathbb Q[y,z,(yzDJ)^{-1}].
+\]
+Reversal in the invertible variable gives
+\[
+ \phi=v^2P_p(1/v,y,z)=a v^2+bv+c,\qquad
+ a=-3y^2D,\quad b=-6y^2E,\quad c=KD.
+\]
+The leading coefficient $a$ is a unit of $R$. Consequently
+\[
+ P=\phi/a=v^2+\lambda v+\mu,\qquad
+ \lambda=2E/D,\quad \mu=-K/(3y^2)
+\]
+defines a free rank-two $R$-algebra with basis $(1,v)$.
+
+Put $U=v^6P_F(1/v,y,z)$ and $T_0=v^{10}P_T(1/v,y,z)$. Full integer
+coefficient multiplication verifies
+\begin{align}
+ a^5U&=Q_F\phi+216y^6J^2(rv+s),\label{centre:pdiv1}\\
+ a^9T_0&=Q_T\phi+1944y^{10}J(tv+w).\label{centre:pdiv2}
+\end{align}
+The quotients $Q_F,Q_T$ and the entire remainders are delivered, so these
+are coefficient identities, not sampled equalities. The term counts of
+$(r,s,t,w)$ are $(157,173,797,816)$; their respective bidegrees in $(y,z)$
+are $(18,14),(18,14),(35,27),(35,27)$. All coefficients removed in
+\eqref{centre:pdiv1}--\eqref{centre:pdiv2} are units of $R$. Hence the
+ideals generated by $(\phi,U,T_0)$ and $(P,rv+s,tv+w)$ are equal in
+$R[v]$. This equality holds over arbitrary $R$-algebras, including
+nonreduced ones.
+
+The candidate algebra
+\[
+ \mathcal B=R[v]/(P,rv+s,tv+w)
+\]
+has the exact module presentation
+\begin{equation}\label{centre:module}
+ R^4\xrightarrow{\mathcal K}R^2\longrightarrow\mathcal B\longrightarrow0,
+ \qquad
+ \mathcal K=\begin{pmatrix}
+ s&-\mu r&w&-\mu t\\r&s-\lambda r&t&w-\lambda t
+ \end{pmatrix}.
+\end{equation}
+Indeed, the four columns are the coordinates of
+$(rv+s),v(rv+s),(tv+w),v(tv+w)$ in the basis $(1,v)$, and these generate
+the ideal as an $R$-module. No division by $r$ or $t$ is used here.
+
+Multiply columns two and four by $a$, a unit, and write
+$\widehat{\mathcal K}=\mathcal K\operatorname{diag}(1,a,1,a)$.
+Define $f,g\in\mathbb Z[y,z]$ by the exact normalization identities
+\[
+ \det\widehat{\mathcal K}_{12}=12y^2D^7f,\qquad
+ \det\widehat{\mathcal K}_{23}=6y^2D^9g.
+\]
+The full polynomials are \path{minor_12.txt} and \path{minor_23.txt}.
+The other four normalized minors are also supplied and checked; no factor
+unsupported on an existing unit is discarded. The relevant degrees are
+\[
+ \deg_{y,z}f=(24,16),\quad \deg_{y,z}g=(37,25),\qquad
+ \#\operatorname{terms}(f)=281,\quad\#\operatorname{terms}(g)=833.
+\]
+
+\begin{lemma}\label{centre:coprime}
+The polynomials $f,g$ are coprime in $\mathbb C[y,z]$.
+\end{lemma}
+\begin{proof}
+Exact extraction gives $[y^0]f=-z^{16}$ and
+$([y^{24}]f)(0)=-40960000$. Thus $f$, considered in $\mathbb C[z][y]$,
+has no nonconstant content factor. Write $F_1(y)=f(y,1)$ and
+$G_1(y)=g(y,1)$. Their degrees are 24 and 37; their leading coefficients
+modulo 101 are 4 and 83, respectively. An explicit extended-Euclidean
+certificate, recomputed from these coefficient arrays, gives
+\[
+ a_*\overline F_1+b_*\overline G_1=1
+ \quad\hbox{in }\F_{101}[y],\qquad
+ \deg a_*=36,\quad\deg b_*=23.
+\]
+As a separate test the complete ascending-coefficient $61\times61$
+Sylvester matrix has determinant $98$ modulo 101.
+
+If a primitive nonconstant integer polynomial divided $F_1,G_1$, its
+reduction would still have positive degree: reduction preserves the
+entire degree of $F_1$, so it preserves the degree of each factor of
+$F_1$. This contradicts the displayed identity. Thus $F_1,G_1$ are
+coprime over $\mathbb Q$, and a rational B\'ezout identity proves the
+same over $\mathbb C$. A common factor of $f,g$ of positive $y$-degree
+would stay nonconstant at $z=1$, because that specialization preserves
+the full $y$-degree of $f$: the leading $y$-coefficients of factors
+multiply, and their product is nonzero at $z=1$. It would divide $F_1,G_1$. A common factor
+of $y$-degree zero would divide the content of $f$. Both possibilities
+have been excluded.
+\end{proof}
+
+\begin{theorem}\label{centre:finite}
+The entire original localized fibre at $q^0$ is finite, including every
+possible nonreduced contribution.
+\end{theorem}
+\begin{proof}
+Two coprime polynomials in two variables have a zero-dimensional common
+zero scheme: a positive-dimensional component would give a height-one
+prime, which is principal in the polynomial ring, and hence a common
+factor. Therefore $\mathbb Q[y,z]/(f,g)$, and its localization
+$R/(f,g)$, are finite-dimensional vector spaces.
+
+Every maximal minor of a two-row presentation matrix annihilates its
+cokernel. For a selected pair of columns, their $2\times2$ adjugate
+expresses the determinant times either basis vector in the image.
+The two displayed minors differ from $f,g$ by units, so
+$(f,g)\mathcal B=0$. Presentation~\eqref{centre:module} gives a
+surjection $(R/(f,g))^2\twoheadrightarrow\mathcal B$. Thus
+$\mathcal B$ is finite dimensional. The original coordinate algebra
+$C$ is obtained by the inverse change of variables, the unique source
+reconstruction and all remaining original localizations. Localization
+of a finite-dimensional algebra selects Artinian factors and remains
+finite dimensional. These are equalities of localized schemes; in
+particular the argument preserves nilpotents. No rank-zero stratum or
+additional localization boundary was discarded.
+\end{proof}
+
+Applying Lemma~\ref{length:bound} to the original square family, with
+generic degree 512 and the finite fibre just proved, now gives
+\begin{equation}\label{centre:upper}
+ \dim_{\mathbb Q}C=\dim_{\mathbb C}(C\otimes\mathbb C)\le512.
+\end{equation}
+The equality follows from extension of scalars for a finite vector space.
+This is the first point in the argument at which the generic degree is
+used to bound this particular fibre.
+
+\subsection{A complete smooth residue witness and its lifts}
+The file \path{candidate_mod101.json} supplies eleven monic polynomials
+$h_i(Z)$ and residues $U_{1i},U_{2i},U_{3i}$ in
+\[
+ T_i=\F_{101}[Z]/(h_i),\qquad U_{3i}=Z\pmod {h_i}.
+\]
+The certificate is fully checked in these quotient rings by polynomial
+convolution, Euclidean division and explicit inverses. The degrees are
+\begin{equation}\label{centre:degrees}
+ (1,1,2,2,5,6,56,61,62,158,158),\qquad\sum_i\deg h_i=512.
+\end{equation}
+The tests are
+\begin{align}
+ \gcd(h_i,h_i')&=1,&\gcd(h_i,h_j)&=1\quad(i\ne j),\label{centre:squarefree}\\
+ P_p(U_i)=P_F(U_i)=P_T(U_i)&=0,&
+ \det\frac{\partial(P_p,P_F,P_T)}{\partial(u_1,u_2,u_3)}(U_i)&\in T_i^\times.
+ \label{centre:smooth}
+\end{align}
+The Jacobian is that of the original three numerator equations, rather
+than of the two convenient projection minors. The first two components
+are $h_1=Z+48$, $U_1=(29,82,53)$ and $h_2=Z+67$,
+$U_2=(47,39,34)$; the remaining, possibly reducible, component arrays
+are supplied in full. Irreducibility is unnecessary:
+\eqref{centre:squarefree} gives 512 distinct geometric values of $u_3$.
+
+Every reconstruction denominator is a unit in each $T_i$. In particular,
+with
+\[
+ \alpha_j=q_j-(u_j-1)^2,\quad\beta_j=q_j+u_j-1,\quad
+ d_j=q_ju_j/\beta_j,\quad X_j=\alpha_j/\beta_j,\quad Y_j=\beta_j/q_j,
+\]
+the full list of original factors checked is
+\begin{equation}\label{centre:23}
+ \begin{gathered}
+ d_j,\ q_j-d_j,\ q_j-d_j^2\quad(j=1,2,3),\\
+ S,A,B,E_1,p_0,2-p_0,t_0,2-t_0,p,2-p,r_1,2-r_1,t_1,2-t_1,
+ \end{gathered}
+\end{equation}
+where $S=\sum_j\zeta_j$, $E_1=\sum_jX_j^2(Y_{j+1}^2-Y_{j+2}^2)$
+with cyclic indices, $p_0=2\zeta_2u_1/(u_2A)$ and
+$t_0=2\zeta_3u_2/(u_3B)$. A unit test means a polynomial gcd equal to
+one, equivalently an inverse identity modulo the entire $h_i$.
+The triangle is reconstructed from its three right-kernel equations,
+two left-kernel equations and its trace equation; the determinant is
+$Y_3E_1$. The remaining left-kernel equation and all ten original
+coefficient residuals are checked after reconstruction. The linear
+remainder coefficient $r(U_{2i},U_{3i})$ is separately a unit.
+
+\begin{lemma}\label{centre:hensel}
+The original characteristic-zero fibre has 512 distinct points after
+extension to a single finite extension of $\mathbb Q_{101}$, with 512
+distinct values of $u_3$.
+\end{lemma}
+\begin{proof}
+Choose a finite field $k/\F_{101}$ splitting all $h_i$, and let
+$\mathcal O$ be the complete ring of integers of the corresponding
+finite unramified extension $L/\mathbb Q_{101}$. Each residue tuple is
+a common zero of the three integer source polynomials with invertible
+Jacobian. Suppose $a_k\in\mathcal O^3$ solves these equations modulo
+$101^k$. Choose a correction $t\pmod {101}$ solving
+\[
+ J(a_k)t\equiv-101^{-k}(P_p,P_F,P_T)(a_k)\pmod {101},
+ \qquad a_{k+1}=a_k+101^kt.
+\]
+The invertible residue Jacobian makes this possible, and the polynomial
+Taylor formula proves the equations modulo $101^{k+1}$. Completeness
+gives an exact source zero in $\mathcal O^3$.
+
+All required rational constants are defined at 101. Every denominator
+and factor in \eqref{centre:23} remains a unit, since its residue was
+checked nonzero. Source reconstruction therefore gives an $L$-point of
+the original localized fibre. Distinct residue tuples have distinct
+lifts. More strongly, their $u_3$ residues are all distinct by
+\eqref{centre:squarefree}, so their lifted $u_3$ values are distinct.
+Only this witnessed subset is lifted; no assertion that the entire
+special fibre has been described is needed.
+\end{proof}
+
+\begin{theorem}\label{centre:complex}
+The original marked localized coefficient fibre at $q^0$ has exactly
+512 distinct reduced nonsingular complex points and scheme length 512:
+\[
+ C\otimes_{\mathbb Q}\mathbb C\cong\mathbb C^{512}.
+\]
+\end{theorem}
+\begin{proof}
+The 512 $L$-points of Lemma~\ref{centre:hensel} give 512 distinct
+maximal ideals with residue field $L$ in $C\otimes L$. The Chinese
+remainder theorem gives a surjection
+\[
+ C\otimes L\twoheadrightarrow L^{512}.
+\]
+The source has dimension at most 512 by \eqref{centre:upper}, so the
+surjection is an isomorphism and $\dim_{\mathbb Q}C=512$.
+An additional point or a nonzero nilpotent contribution would add positive
+length, so both are excluded by this equality. Faithful
+field extension implies that $C$ is reduced. A finite reduced rational
+algebra is a product of finite separable number fields; after extension
+to $\mathbb C$ these split into exactly 512 copies of $\mathbb C$.
+The original three-source Jacobian is nonzero at every lift by its
+nonzero residue, so its determinant is a unit in $C\otimes L$ and
+in $C$. The source equivalence preserves this nonsingularity.
+This argument does not identify $\overline{\mathbb Q}_{101}$ with
+$\mathbb C$, assume properness, or deduce characteristic-zero equality
+from a modular count alone.
+\end{proof}
+
+\begin{corollary}\label{centre:primitive}
+The coordinate $u_3$ generates $C$ as a rational algebra, and the
+coefficient $r(u_2,u_3)$ is a unit in $C$.
+\end{corollary}
+\begin{proof}
+In $C\otimes L=L^{512}$, the 512 entries of $u_3$ are distinct.
+Vandermonde interpolation gives $L[u_3]=L^{512}$. The inclusion
+$\mathbb Q[u_3]\subset C$ becomes an equality after faithful extension
+to $L$, hence was an equality already. At every lift, $r$ has nonzero
+residue. Thus multiplication by $r$ is invertible on $C\otimes L$;
+its determinant is then nonzero over $\mathbb Q$, so $r$ is a unit in
+$C$. The relation $rv+s=0$ gives $v=-s/r$ everywhere, including every
+point of the original fibre.
+\end{proof}
+
+\subsection{Identification of the explicit rational univariate algebra}
+The two given source minors define the integer resultant
+\[
+ R_*(z)=\operatorname{Res}_y(f(y,z),g(y,z)),\qquad
+ \deg R_*\le24\cdot25+37\cdot16=1192.
+\]
+The exact supplied coefficient arrays satisfy
+\begin{equation}\label{centre:factorization}
+ R_*=c_*HE_*,\quad c_*\in\mathbb Z\setminus\{0\},\quad
+ \deg R_*=1192,\quad\deg H=512,\quad\deg E_*=680,
+\end{equation}
+with $H,E_*$ primitive. This complete product identity is checked by
+integer convolution. The source resultant identity is checked by a
+separate coefficient parser and exact integer univariate resultants at
+1193 distinct negative integers. At every test the $y$-degrees remain
+24 and 37. Both the actual resultant and the proposed array have degree
+at most 1192, so these tests prove equality of polynomials over
+$\mathbb Z$. These are a complete identity proof, rather than random
+spot checks. FLINT supplies the exact integer resultant backend;
+the product and modular factor tests use only Python integers.
+
+The complete complementary factor, with every multiplicity retained,
+satisfies
+\begin{equation}\label{centre:Hmod}
+ \operatorname{lc}(H)\equiv10\pmod {101},\quad
+ \overline H/\overline{\operatorname{lc}(H)}=\prod_i h_i,
+ \qquad \gcd(\overline E_*,h_i)=1\quad\hbox{for every }i.
+\end{equation}
+\begin{theorem}\label{centre:coordinate}
+The supplied polynomial $H$, after monic normalization, is the minimal
+polynomial of $u_3$ in the original rational coordinate algebra:
+\[
+ C=\mathbb Q[u_3]\cong\mathbb Q[Z]/(H(Z)).
+\]
+In particular this algebra is identified in characteristic zero, not
+merely by agreement of its reduction modulo 101.
+\end{theorem}
+\begin{proof}
+At each of the 512 integral lifts, the source minors $f,g$ vanish.
+The Sylvester adjugate identity therefore gives $R_*(u_3)=0$, even if
+a leading coefficient of $f$ or $g$ drops at that point. By
+\eqref{centre:Hmod}, $E_*(u_3)$ has nonzero residue and is a unit in
+$\mathcal O$. The exact identity \eqref{centre:factorization} and
+$c_*\ne0$ in the characteristic-zero field $L$ imply $H(u_3)=0$.
+The scalar $c_*$ need not be a 101-adic unit; it is cancelled in $L$.
+Thus $H$ annihilates $u_3$ in $C\otimes L$ and, by faithful base
+change, in $C$. Corollary~\ref{centre:primitive} shows that its minimal
+polynomial has degree 512. The displayed $H$ has the same degree, so
+its monic normalization is exactly that polynomial.
+\end{proof}
+
+\subsection{A complete exact real-root certificate}
+Write $H(x)=\sum_{i=0}^{512}a_ix^i$. The coefficient arrays satisfy
+\[
+ \sum_{i<512}|a_i|B^i<|a_{512}|B^{512},\qquad B=2^{19}.
+\]
+For $|x|\ge B$, each ratio $|a_ix^i|/|a_{512}x^{512}|$ is no larger
+than at $B$. Thus all complex roots have modulus strictly less than
+$B$. In particular every real root is in $(-B,B)$.
+
+Parameterize the negative and positive halves by $x=-Bt$ and $x=Bt$,
+$0<t<1$. For a node polynomial $Q(t)$ of degree $n$, define
+\[
+ \mathcal DQ(s)=(1+s)^nQ(1/(1+s)).
+\]
+For $s>0$, this change of variables bijects to $0<t<1$; its prefactor
+never vanishes there. Descartes' rule of signs bounds the positive-root
+multiplicity count by the variation $V$ of the nonzero coefficients
+of $\mathcal DQ$, and their difference is even. In particular $V=0$
+proves emptiness and $V=1$ proves exactly one root. Coefficient reversal
+followed by a Taylor shift by one computes $\mathcal DQ$ exactly.
+
+For $V>1$ bisect, using the integer coefficient transformations
+\[
+ Q_0(t)=2^nQ(t/2),\qquad Q_1(t)=Q_0(t+1).
+\]
+Positive integer content can be removed without changing roots or
+signs. A root at a subdivision midpoint is tested exactly and would
+be counted once, separately from the two open children. The delivered
+finite trees, in \path{descartes_partition.json}, have the following
+independently checked data:
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+Half-axis & One-root leaves & All leaves & Nodes & Maximum depth\\
+\midrule
+$u_3<0$ &46&85&169&38\\
+$u_3>0$ &158&233&465&35\\
+\midrule
+Total &204&318&634&\\
+\bottomrule
+\end{tabular}
+\end{center}
+Every leaf is checked to have variation zero or one. The leaf paths
+are distinct and prefix-free, and every internal prefix has both
+children. Therefore the finite trees cover the initial intervals,
+apart from the separately tested splitting points. None of the
+splitting points is a root, and $H(0)\ne0$. A second integer-only
+checker independently verifies that all 319 distinct partition
+endpoints are nonroots and that each of the 204 one-root leaves has
+opposite endpoint signs. This also supplies a direct intermediate-value
+lower bound. No assumed termination of an infinite subdivision is
+used: the delivered finite tree is the complete certificate.
+
+\begin{theorem}\label{centre:real}
+The original localized real coefficient fibre has exactly 204 points:
+\[
+ N_{\mathbb R}=204,
+ \qquad N_{\mathbb R,u_3<0}=46,\quad N_{\mathbb R,u_3>0}=158.
+\]
+The remaining 308 points of the complexification form 154 conjugate
+pairs. The 204 real coefficient points give the real, star-preserving
+connections in the declared sector through the source equivalence.
+\end{theorem}
+\begin{proof}
+The strict root bound, full binary coverage, endpoint tests and Descartes
+variations prove that $H$ has exactly $46+158=204$ real roots. By
+Theorem~\ref{centre:coordinate}, real points are precisely the rational
+algebra homomorphisms $C\to\mathbb R$, which are exactly evaluations
+at those roots. Every original coordinate and every localized inverse
+belongs to $C=\mathbb Q[u_3]$, so it evaluates to a real value; no
+additional reality filter is missing. The geometric identification
+with star-preserving connections is the real source equivalence, not
+a claim that arbitrary complex coefficients satisfy an anti-linear
+star condition. Theorem~\ref{centre:complex} and complex conjugation
+give $(512-204)/2=154$ nonreal pairs.
+\end{proof}
+
+\subsection{An explicit global reconstruction, with safe cancellation}
+For completeness the other coordinates can be reconstructed without
+an unspecified interpolation choice. Form a $59\times60$ coefficient
+matrix $V(Z)$, with columns indexed by $1,y,\ldots,y^{59}$ and rows
+\[
+ f,yf,\ldots,y^{35}f,\qquad g,yg,\ldots,y^{22}g.
+\]
+Let $V_j$ denote its degree-$j$ column and set
+\[
+ A_*(Z)=\det[V_1|V_2|\cdots|V_{59}],\qquad
+ B_*(Z)=\det[V_0|V_2|\cdots|V_{59}].
+\]
+If $c_i=(-1)^i\det(V_{\ge2}\text{ with row }i\text{ removed})$,
+expanding along the first column gives the constant and linear
+coefficients $B_*,A_*$. Every higher coefficient in that row
+combination is zero by a repeated-column determinant. Consequently
+\begin{equation}\label{centre:cofactorrel}
+ A_*(Z)y+B_*(Z)\in(f,g)\mathbb Z[y,Z].
+\end{equation}
+The degree bound is $36\cdot16+23\cdot25=1151$. All coefficients of
+both determinants are supplied; equality is checked at 1152 distinct
+negative integers using the entire fixed-size matrices. Degree drops
+of specialized input polynomials do not affect these fixed
+determinant identities.
+
+The exact integer arrays satisfy
+\[
+ A_*=c_0GD_2,\qquad B_*=-c_0GN,
+ \qquad c_0\in\mathbb Z\setminus\{0\},
+ \quad \deg G=388,\quad\deg N=\deg D_2=763.
+\]
+Integer convolution checks both identities. Full component tests give
+$\gcd(\overline G,h_i)=\gcd(\overline {D_2},h_i)=1$ for every $i$.
+At all 512 integral lifts, $G,D_2$ therefore have nonzero residue.
+The lifts exhaust $C\otimes L$, so both are units there and descend
+to units of $C$. In $C$, the source minors vanish; cancelling these
+proved units in \eqref{centre:cofactorrel} gives
+\[
+ u_3=Z,\qquad u_2=N(Z)/D_2(Z),\qquad
+ u_1=-r(u_2,Z)/s(u_2,Z).
+\]
+Here $s=-rv=-r/u_1$ is a unit because $r$ and $u_1$ are units.
+Formal cancellation in $\mathbb Q(Z)$ alone would not have justified
+these formulas at the fibre points.
+
+The remaining coordinates are given by $m=m_0$, the displayed path
+formulas, and the unique triangle linear solve. Explicitly, in the
+unknown order $(a,b,c,p,r_1,t_1)$ the matrix and right-hand side are
+\[
+ M=\begin{pmatrix}
+ Y_1&0&0&Y_2&Y_3&0\\
+ 0&Y_2&0&-Y_1&0&Y_3\\
+ 0&0&Y_3&0&-Y_1&-Y_2\\
+ X_1&0&0&-X_2&-X_3&0\\
+ 0&X_2&0&X_1&0&-X_3\\
+ 1&1&1&0&0&0
+ \end{pmatrix},\quad
+ w=\begin{pmatrix}
+ -mY_1\\-mY_2-2Y_1\\-mY_3-2Y_1-2Y_2\\
+ -mX_1-2X_2-2X_3\\-mX_2-2X_3\\-m
+ \end{pmatrix},\qquad \det M=Y_3E_1.
+\]
+Cramer's rule gives a literal rational circuit. Its complete 53-node,
+30-division serialization is \path{rational_circuit.json}; its inputs
+$N,D_2$ are \path{u2_reconstruction.json}. Every division denominator
+is checked to have an explicit inverse in every $T_i$. Inductively,
+earlier unit divisions preserve integrality at every lift, and the
+next nonzero residue proves its denominator is a unit there. Since
+the lifts exhaust the algebra, each denominator is a unit in $C$.
+The exact cofactor relation, the source linear remainder and the unique
+source reconstruction prove characteristic-zero equality with the
+original coordinates. Modular residual tests corroborate this
+implementation; they are not used as a substitute for those exact
+identifications.
+
+At each real root of $H$ the circuit therefore produces one and only
+one original real coefficient point, with all 23 factors nonzero.
+Conversely every original point is obtained in this way. The
+construction counts marked coefficient points in this localized
+sector; it does not divide by relabellings or classify a larger moduli
+space.
+
+\paragraph{A worked real connection.}
+At $q^0$ with all four scales one, let $\rho$ be the unique root of the
+primitive polynomial $H$ in
+\[
+ -\frac{400542}{10^6}<\rho<-\frac{400541}{10^6}.
+\]
+The exact $H$-values at the endpoints have negative and positive signs,
+respectively, and this
+interval lies inside the certified one-root Descartes leaf
+$(-1/2,-1/4)$.  Set $u_3=\rho$ and use the existing rational
+reconstruction circuit.  The spatial blocks $M_0,M_1$ from the original connection ansatz and
+the scalar have the following certified rounded values:
+\[
+\begin{aligned}
+ (u_1,u_2,u_3)&\simeq (-0.4187284043,-0.4102925777,-0.4005416805),\\
+ m&\simeq -1.9869902124,\\[-0.2em]
+\end{aligned}
+\]
+\[
+ M_0\simeq\begin{pmatrix}0.757841 & 1.254421 & 0 \\ 0.745579 & -0.088125 & 1.346200 \\ 0 & 0.653800 & 1.317274\end{pmatrix},\qquad
+ M_1\simeq\begin{pmatrix}0.974629 & 0.528544 & -0.103648 \\ 1.471456 & -0.376875 & 0.689222 \\ 2.103648 & 1.310778 & 1.389236\end{pmatrix}.
+\]
+For example, the temporal mixed coefficients are
+\[
+\begin{aligned}
+ (v_{01},v_{02},v_{03})(0)&\simeq (7.956630,2.811717,1.862320),\\
+ (v_{01},v_{02},v_{03})(1)&\simeq (1.217001,2.006328,4.032929).
+\end{aligned}
+\]
+An exact nested dyadic bracket and outward-rounded interval evaluation
+of the literal circuit certify all displayed rounding.  Every one of
+the original twenty-three units has absolute value greater than
+$0.1036$ on that bracket.  The exact algebraic connection is specified by $\rho$ and the rational
+circuit. These rounded displays illustrate its active spatial and temporal
+couplings. The supplementary folder \path{examples/worked_connection/}
+contains the exact signs, outward enclosures and a separate replay script.
+
+\section{Closure of the main theorem}
+\begin{proof}[Proof of Theorem~\ref{main:count}]
+The scheme-theoretic reconstruction of Section~\ref{geometry:model}
+identifies the original declared connection sector with the four-variable
+family, preserving all inverted factors and all multiplicities.
+Theorem~\ref{generic:degree} proves the first assertion by a proper
+closure, complete boundary exclusion at a control point and the actual
+relative Jacobian criterion.
+
+At $q^0$, Theorem~\ref{centre:finite} proves that the entire localized
+fibre is finite. Corollary~\ref{length:application} therefore bounds its
+length by $512$. The modular smooth-point construction and its
+characteristic-zero lifts in Theorem~\ref{centre:complex} supply $512$
+different points of that same fibre. A point of an Artinian scheme
+over an algebraically closed field contributes length at least one.
+Thus the length cap is attained, every point contributes length one,
+and no extra support or nilpotent contribution remains. This proves
+the second assertion.
+
+The exact coordinate-algebra identification and Descartes certificate
+in Theorem~\ref{centre:real} prove that precisely $204$ of these points
+are real. The rational inverse reconstruction is defined at each point
+and is over $\mathbb Q$, so real primitive coordinates give real
+coefficient points and conversely. The original real QLC isomorphism
+then supplies the claimed star-preserving connections. This proves
+the third assertion.
+\end{proof}
+
+% END SHARED COUNTING EXPOSITION
+\section{The computational certificates and reproducibility}
+\label{verification:section}
+
+\subsection{What the computer-assisted part proves}
+The proof uses explicit finite certificates, grouped by mathematical role.
+The directory \path{certificates/geometry/} supplies the original global
+equations and all cleared localization factors. Its checking programs
+derive the tensor-component tables, the ring identities and the path and
+triangle completion identities, and compare the full coefficient arrays
+with the intrinsic formulas in Section~\ref{geometry:model}.
+
+The additional direct checker \path{audit/qlc_original_replay.py}
+imports no other checking module. Starting with symbolic temporal
+coordinates, all four metric scales and the supported spatial matrices,
+it reconstructs all $56$ coefficient values and expands the original
+tensor connection and conjugate tensor flip. It checks the explicit
+ideal representations \eqref{integrity:direct-residuals} for all $128$
+metric and $128$ star components, torsion, degree preservation, and
+both compositions needed for $\sigma^{-1}=D\sigma D$.
+It also checks the right Leibniz rule on every vertex idempotent at
+every vertex: $16\cdot16\cdot4\cdot4\cdot4=16384$ scalar equalities.
+Two exact negative controls change a reconstructed square coefficient
+or break an active edge sum; their residual discrepancies are nonzero
+rational functions. No random or floating-point point test is used.
+This is a direct check of inverse reconstruction, conditional on the
+block involution ideal. The separate block certificate proves that
+the four reduced equations imply that ideal, and the universal-ring
+argument proves the forward elimination and the identity of the two
+maps. Neither direction is inferred from the other by a point count.
+
+The directory \path{certificates/generic/} supplies finite-field
+coefficients and unit identities for every finite boundary chart and
+pole chart, the restricted elimination data, the $512$-degree control
+algebra, and the relative Jacobian tests. Their role is to check the
+finite algebraic calculations in the generic-degree proof; the
+properness and specialization arguments are proved in the text.
+
+The directory \path{certificates/centre/} contains all numerator
+polynomials used in the quadratic-module reduction, all six minors,
+the eleven smooth residue components, the full integer eliminant and
+its factorization, the primitive coordinate polynomial, the complete
+Descartes partition, and the rational reconstruction circuit. These are
+the actual coefficient arrays, not only their checksums.
+Every division that occurs in a coordinate reconstruction is justified
+by a unit condition or an explicit inverse certificate. The proof does
+not equate a determinantal plane quotient with the original connection
+scheme, and does not discard a rank-zero locus without an argument.
+
+For a long polynomial identity over $\mathbb Z$, exact evaluation and
+interpolation are a proof when the declared degree bound is justified
+and the number of distinct exact test points exceeds that bound.
+The eliminant and cofactor checks use grids disjoint from the production
+grids. A handful of additional determinant samples is only
+corroboration. Finite-field unit statements are verified by explicit
+products equal to one, or B\'ezout identities, in the specified quotient
+algebra. No floating-point residual is used to prove an exact equality.
+
+\subsection{How to read or replay the proof}
+The package root contains \path{manuscript.tex}, \path{manuscript.pdf},
+the complete standalone \path{supplement.tex} and \path{supplement.pdf},
+\path{audit/}, \path{certificates/}, \path{requirements.txt} and the portable
+worked example in \path{examples/worked_connection/}. The common counting
+exposition and geometric consequences are identical in both TeX sources,
+including the text between formal statements and proofs. The files in
+\path{sections/} are retained literal source-binding inputs, not verbatim
+extracts of the current printed sections; the complete documents are the
+canonical exposition. The checker
+\path{check_consistency.py} compares these complete regions, checks all
+references and cited package paths, and binds both sources to this release.
+No separate historical counting-proof document is required.
+
+After installing \path{requirements.txt}, run
+\begin{verbatim}
+python -B reproduce.py --output ../qlc-results
+\end{verbatim}
+The output directory must be new and outside the package. The entry point
+first checks source and package consistency, then runs \path{verify.py}
+in both normal and explicit Python \texttt{-O} modes, and finally replays
+the worked example with outward-rounded interval arithmetic. The counting
+runner stages
+only $175$ catalogued proof inputs, including $142$ coefficient files,
+in a fresh temporary workspace. Prior outputs and review reports are
+never proof inputs. Each child must exit successfully and create a new
+receipt with its exact full-scope result status. The complete determinant
+checks cannot be replaced by supplemental samples.
+
+The supplement reports complete normal and optimized executions, their
+receipt hashes, and the bytewise comparison of all mathematical result
+pairs. The stated environment is Python~3.12.14, SymPy~1.14.0,
+python-flint~0.9.0 and native FLINT~3.6.0.
+
+An exact cross-block join binds all nine graph equations, all twenty-three
+localization factors and both triangle invariants across the source and
+degree calculations. Additional literal-formula checks bind the rational
+circuit and the compact-top scalar normalization. With
+$T_0=-P_{\rm top}|_{q_*}$, equation~\eqref{generic:compacttop} has scalar $-4$;
+using the raw top polynomial instead has scalar $+4$. Both scalar
+identities are checked in characteristic zero.
+
+Python integers supply direct polynomial and quotient arithmetic.
+SymPy and FLINT are explicit arithmetic dependencies for the specified
+normalizations and large exact determinants. Hashes identify coefficient
+bytes; executed identities and the written arguments establish the
+mathematics. Scheme isomorphisms, properness, the finite-fibre length
+lemma, Hensel lifting and faithful descent are proved in the text and
+are not inferred from a software status label.
+
+\subsection{Use of generative AI in the research workflow}
+ChatGPT and OpenAI Codex assisted exploration of the algebraic reductions,
+proof drafting, literature triage, development of checking programs and
+internal adversarial reviews. The deterministic certificate checks use the
+explicit coefficient arrays and algorithms described above. Their input
+catalogue, exact outputs and executable replay are supplied in full, so
+independent reproduction requires the stated arithmetic environment and
+does not require a generative model or an earlier conversation.
+The scheme identification, properness, length and lifting arguments are
+written mathematical arguments requiring critical review. Internal agent
+reviews contributed to checking the preparation; they are separate from
+the exact arithmetic certificates and from external journal refereeing.
+
+\subsection{Scope of the theorem and of the review}
+The family is restricted by its chosen calculus, spatial homogeneity,
+ordered path and triangle, trace constraints and the exact regular
+open. These conditions are part of the definition. They have not been
+proved to exhaust all connections on the cube. Nor is the number
+divided by a relabelling group or interpreted as a count of physically
+inequivalent geometries.
+
+The result is the consolidated degree and fixed-metric count.
+No explicit parameter-radius optimization, quantum functional integral,
+regulator removal or physical continuum claim is needed for it.
+The number $204$ is obtained only after the complexified coordinate
+algebra and its real structure have both been identified.
+
+\section{Conclusion}
+The declared path--triangle QLC family admits an exact reversible
+algebraic model. The corrected boundary and degree argument, finite-fibre
+length bound and smooth-lift exhaustion establish a complete reduced
+$512$-point fibre, not merely a modular lower bound. Its primitive
+coordinate algebra and exact real-root certificate give $204$ actual
+star-preserving connections at the stated rational metric.
+
+% BEGIN SHARED GEOMETRIC CONSEQUENCES
+\begin{corollary}[Distinct tensor Leibniz maps at one metric]
+At $q^0$ with scales one, the $204$ counted real connections have $204$
+distinct tensor Leibniz maps $\sigma$.
+\end{corollary}
+\begin{proof}
+For this calculus the translation-degree argument in
+Section~\ref{geometry:model} forces the inner correction map $\gamma$
+to vanish. Hence
+$\nabla\omega=\theta\otimes\omega-\sigma(\omega\otimes\theta)$.
+Two equal maps $\sigma$ would give equal connections and equal coefficient
+points, contrary to the distinctness already proved.
+\end{proof}
+
+This observation locates the finite multiplicity in the varying
+bimodule data; it does not conflict with a comparison fixing the same
+$\sigma$. Classification of excluded support or denominator strata,
+special metrics and symmetry quotients are further questions. The
+enumeration supplies no curvature formula, action principle or physical
+selection of this support.
+
+\begin{corollary}[Obstruction to ordinary coordinate products]
+\label{geometry:noproduct}
+None of the $204$ real connections counted at $q^0$ is an ordinary
+tensor product of connections for a nontrivial partition of the four
+coordinate directions. This remains true after permuting those direction
+labels.
+\end{corollary}
+\begin{proof}
+For an ordinary product over a partition, each frame element $e^i$
+belongs to one factor and $\nabla e^i$ has both output directions in
+that factor. Therefore $C^i{}_{jk}=0$ whenever $i,j,k$ do not all lie
+in a single block. Take the block containing direction $0$. A nontrivial
+partition has some spatial direction $a$ in another block, so it would
+require $C^0{}_{0a}=v_{0a}=0$. On our declared open, however,
+\eqref{geometry:temporal} gives
+\[
+ v_{0a}(0)=\frac{q_a-d_a^2}{q_a-d_a},\qquad
+ v_{0a}(1)=\frac{q_a-d_a^2}{d_a(q_a-d_a)},
+\]
+and every displayed numerator and denominator is a unit. These values
+cannot be zero at a real point. The three active pairs $\{0,a\}$
+form a connected graph on all four directions; connectedness and the
+same obstruction survive any permutation of the labels.
+\end{proof}
+
+The statement concerns ordinary products of the specified coordinate
+calculi. It excludes neither a more general extension construction nor
+an alternative change of geometric data.
+
+% END SHARED GEOMETRIC CONSEQUENCES
+\clearpage
+\appendix
+% BEGIN SHARED AW COMPARISON
+\section{An explicit comparison with Aschieri--Weber compatibility}
+\label{aw:appendix}
+This appendix supplies the tensor calculation behind the same-metric
+comparison with \cite[Definition~5.3(ii), Theorem~5.7]{orig-aw25}.
+Its conventions and hypotheses are retained: it is not a comparison
+obtained merely by fixing our unknown tensor Leibniz map $\sigma$.
+
+Put $A_G=\mathbb C(G)$, $G=(\mathbb Z/2)^4$, and $k_i=h_i^{-1}$.
+Edge symmetry gives $R_ik_i=k_i$. For the right-linear dual frame
+$\xi_i$, with $\langle\xi_i,e^j\rangle=\delta_{ij}$, the corresponding
+inverse metric is $\mathfrak g=\sum_i k_i\xi_i\otimes_{A_G}\xi_i$.
+This calculus is bicovariant; the canonical Woronowicz map $\sigma_W$
+flips its invariant frame tensors, and the exterior relations are
+Grassmann relations. This canonical map is distinct from the variable
+$\sigma$ of our bimodule connections.
+
+\paragraph{The rational tensor product.}
+Let $\phi_0$ be a right-linear coefficient map constant on invariant
+frames and let $\phi=f\phi_0$, for any $f\in A_G$. Write $S_H$ for
+the Hopf antipode and use Sweedler indices for the iterated coproduct
+of $f$. The internal-Hom coaction and rational tensor formula
+\cite[equations~(2.2), (2.6), (2.11)]{orig-aw25}, on invariant inputs, give
+\[
+ (\mathrm{id}\otimes_{\sigma_W}\phi)(e^i\otimes_{A_G}e^j)
+ =\sum f_{(1)}e^i\otimes_{A_G}
+             S_H(f_{(2)})f_{(3)}\phi_0(e^j).
+\]
+Moving the second coefficient through $e^i$ yields the coefficient
+\[
+ \sum f_{(1)}R_i\!\left(S_H(f_{(2)})f_{(3)}\right)=f,
+ \qquad
+ \sum f_{(1)}\otimes S_H(f_{(2)})f_{(3)}=f\otimes1.
+\]
+The second equality is the antipode identity and proves the first.
+Thus the internal-Hom contribution and tensor balancing cancel the
+apparent coefficient shift for every vertex function, without a
+covariance or spatial-homogeneity restriction on $f$. For connections,
+the rational tensor product in \cite[equation~(2.23), Section~4.4]{orig-aw25}
+reduces on invariant frames to the same calculation: split off the
+canonical connection, which vanishes on those frames and their tensors,
+and apply the calculation to the remaining right-linear map.
+
+Contracting with $\mathfrak g$ on
+$(e^i\otimes e^j+e^j\otimes e^i)/2$ now gives the actual specialization
+of \cite[equations~(5.9)--(5.10)]{orig-aw25}:
+\[
+ M_{ijb}=\Phi_{\mathfrak g}(L)_{ijb}
+          =k_jL^i{}_{jb}+k_iL^j{}_{ib},\qquad
+ L^i{}_{jb}=L^i{}_{bj},\quad M_{ijb}=M_{jib}.
+\]
+Its inverse is
+\[
+ L^i{}_{jb}
+ =\frac{k_bM_{ijb}+k_jM_{ibj}-k_iM_{jbi}}{2k_jk_b}.
+\]
+Substitution verifies both compositions; the permuted cross terms
+cancel and the remaining numerator is $2k_jk_bL^i{}_{jb}$.
+All denominators are metric units. Consequently $\Phi_{\mathfrak g}$
+is invertible here, including on arbitrary coefficient functions, and
+the hypotheses of their Theorem~5.7 apply.
+
+\paragraph{The compatibility predicate and the left/right passage.}
+Write $\nabla_Re^i=\sum_{a,b}K^i_{ab}e^a\otimes_{A_G}e^b$.
+The same tensor calculation specializes their metric condition to
+\begin{equation}\label{aw:metric}
+ k_jK^i_{jb}+k_iK^j_{ib}
+       =\delta_{ij}(R_bk_i-k_i).
+\end{equation}
+Under $\nabla_R=D\circ\nabla\circ *$, the star and tensor flip of
+Section~\ref{geometry:model} give
+\[
+ K^i_{ab}=-R_aR_b\bigl(\overline{C^i{}_{ba}}\bigr),
+ \qquad K^i_{ii}=-\overline{U_i}.
+\]
+Setting $i=j=b$ in \eqref{aw:metric}, and using $R_ik_i=k_i$,
+forces $U_i=0$ for all four directions. This conflicts with the
+imposed trace $\sum_iU_i(t)=4$ in \eqref{geometry:support}.
+
+The difference also persists without that trace restriction. Put
+$Q_i(t)=h_i(1-t)/h_i(t)$ for $i>0$. The inverse formula above gives
+\[
+ K^i_{i0}(t)=\frac{k_i(1-t)-k_i(t)}{2k_i(t)}
+            =\frac{Q_i(t)^{-1}-1}{2},\qquad K^0_{0i}=0.
+\]
+Pulling back shifts the first coefficient to the opposite time slice;
+hence $v_{i0}=(1-Q_i)/2$ and $v_{0i}=0$. Reconstructing the corresponding
+$\sigma$ by \eqref{geometry:sigma} in the original tensor metric
+equation~\eqref{geometry:metriccomponents} yields
+\begin{equation}\label{aw:residual}
+ \frac{E_{0ii}}{h_i}
+ =(Q_i-1)+2v_{i0}-v_{i0}^{\,2}
+ =-\frac{(Q_i-1)^2}{4}\ne0.
+\end{equation}
+Here $Q_i-1$ is a unit on our metric-ratio base. Thus the unique
+connection for the Aschieri--Weber predicate does not satisfy our
+original full tensor metric predicate under this same-metric
+left/right identification. This establishes the stated comparison;
+it excludes no arbitrary alternative realization of the geometric data.
+
+The standard-library checker
+\path{literature/comparison_checks/aw_comparison_check.py}
+recomputes both inverse compositions at $q^0$, the rational-tensor
+identity on every vertex basis function and direction, and the six
+normalized residuals on the two slices. Its optional
+\texttt{--source-pdf} argument identifies the inspected arXiv v2 bytes;
+it is not needed for the arithmetic. This bounded comparison check
+is separate from the complete $512/204$ counting replay. The general
+identities and their geometric interpretation are the written
+derivation above, not an inference from a software status.
+
+% END SHARED AW COMPARISON
+
+\paragraph{Data availability.}
+The exact coefficient data, verification programs, certificates and
+execution records are publicly available in the versioned GitHub research
+package~\cite{qlc-data}, at commit \texttt{1cefff4}.
+\href{https://github.com/Torsheim/quantum-gravity-qlc/blob/1cefff4a809dae7626169fad6f469b97babf8a95/Quantum_Gravity_QLC_Computational_Supplement.zip}{The complete code/data archive}
+accompanies article revision 0.13 and supplement revision 2.3.
+It contains the same $175$ protected counting inputs as the delivered
+supplement. The current package also includes the complete editable
+sources, pinned requirements and exact replay records.
+Run \path{reproduce.py}; \path{inputs.json} and
+\path{synchronization.json} identify and bind the proof inputs and sources.
+
+\paragraph{Funding.}
+This research received no external funding.
+
+\paragraph{Declaration of competing interest.}
+The author declares no known competing financial interests or personal
+relationships that could have appeared to influence the work reported in
+this paper.
+
+\section*{Declaration of generative AI and AI-assisted technologies
+in the manuscript preparation process}
+During the preparation of this manuscript and its computational supplement,
+the author used ChatGPT and Codex (OpenAI) for drafting and revising the
+text, mathematical support, and internal AI-assisted review of the arguments
+and computations. Further details are given in the reproducibility section.
+The author previously reviewed the manuscript and supplement, authorized
+the subsequent documentation revisions, and takes full responsibility for
+the content.
+
+\begin{thebibliography}{99}\small
+\bibitem{beggs-majid-star} E. J. Beggs and S. Majid,
+\emph{*-Compatible Connections in Noncommutative Riemannian Geometry},
+Journal of Geometry and Physics \textbf{61} (2011), 95--124.
+Cited version: \url{https://arxiv.org/abs/0904.0539v2}.
+\bibitem{majid-graphs} S. Majid,
+\emph{Noncommutative Riemannian geometry on graphs},
+Journal of Geometry and Physics \textbf{69} (2013), 74--93.
+Cited version: \url{https://arxiv.org/abs/1011.5898v4}.
+\bibitem{stacks-dvr} The Stacks Project, Lemma 32.15.1, Tag 0CM2,
+a discrete-valuation trait reaching a point in a finite-type closure.
+\url{https://stacks.math.columbia.edu/tag/0CM2}.
+\bibitem{stacks-qf} The Stacks Project, Lemma 29.57.2, Tag 01TI,
+openness of the quasi-finite locus.
+\url{https://stacks.math.columbia.edu/tag/01TI}.
+\bibitem{stacks-square} The Stacks Project, Lemma 49.10.1, Tag 0BWE,
+quasi-finite localized square presentations and flatness.
+\url{https://stacks.math.columbia.edu/tag/0BWE}.
+\bibitem{stacks-jacobian} The Stacks Project, Lemma 29.37.15, Tag 02GU,
+the square Jacobian criterion for \'etaleness.
+\url{https://stacks.math.columbia.edu/tag/02GU}.
+\bibitem{stacks-proper-qf} The Stacks Project, Lemma 37.44.1, Tag 02LS,
+proper locally quasi-finite morphisms are finite.
+\url{https://stacks.math.columbia.edu/tag/02LS}.
+\bibitem{stacks-finite-free} The Stacks Project, Section 29.49, Tag 02K9,
+finite locally free morphisms and locally constant rank.
+\url{https://stacks.math.columbia.edu/tag/02K9}.
+\bibitem{stacks-closure} The Stacks Project, Section 29.6, Tag 01R5,
+scheme-theoretic image and restriction to opens.
+\url{https://stacks.math.columbia.edu/tag/01R5}.
+\bibitem{orig-emergence} S. Majid,
+\emph{On the emergence of the structure of Physics},
+preprint, cited version: \url{https://arxiv.org/abs/1711.00556v2}.
+\bibitem{orig-square} S. Majid,
+\emph{Quantum gravity on a square graph},
+Classical and Quantum Gravity \textbf{36} (2019), 245009,
+doi:10.1088/1361-6382/ab4975.
+Cited version: 2018 preprint, \url{https://arxiv.org/abs/1810.10831v1}.
+\bibitem{orig-book} E. J. Beggs and S. Majid,
+\emph{Quantum Riemannian Geometry}, Grundlehren der mathematischen
+Wissenschaften \textbf{355}, Springer, 2020.
+\url{https://doi.org/10.1007/978-3-030-30294-8}.
+Inspected: Example~8.20, pp.~594--598, with its relevant calculus,
+connection, tensor, star and group-component dependencies; especially
+Definition~8.3, Proposition~8.11 and Lemma~8.17.
+\bibitem{orig-digital} S. Majid and A. Pacho\l{},
+\emph{Digital finite quantum Riemannian geometries},
+Journal of Physics A: Mathematical and Theoretical \textbf{53} (2020), 115202.
+Cited version: \url{https://arxiv.org/abs/1807.08492v2}.
+\bibitem{orig-polygon} J. N. Argota-Quiroz and S. Majid,
+\emph{Quantum gravity on polygons and $\mathbb R\times\mathbb Z_n$ FLRW model},
+Classical and Quantum Gravity \textbf{37} (2020), 245001.
+Cited version: \url{https://arxiv.org/abs/2005.13999v3}.
+\bibitem{orig-mr25} B. Mesland and A. Rennie,
+\emph{Existence and uniqueness of the Levi-Civita connection on
+noncommutative differential forms},
+Advances in Mathematics \textbf{468} (2025), 110207.
+Cited version: \url{https://arxiv.org/abs/2403.13735v3}.
+\bibitem{orig-vh25} K. van Helden,
+\emph{New Geometry in Classical and Quantum Gravity}, doctoral thesis,
+University of Groningen, 2025, doi:10.33612/diss.1275744976.
+\url{https://pure.rug.nl/ws/portalfiles/portal/1275744978/Complete_thesis.pdf}.
+\bibitem{orig-graphs24} E. J. Beggs and S. Majid,
+\emph{Quantum geodesic flows on graphs},
+Letters in Mathematical Physics \textbf{114} (2024), 112.
+\url{https://doi.org/10.1007/s11005-024-01860-6}.
+\bibitem{orig-bgg} J. Bhowmick, B. Ghosh and S. Guin,
+\emph{On two notions of torsion and metric compatibility of connections
+in noncommutative geometry}, preprint (2025).
+Cited version: \url{https://arxiv.org/abs/2509.11888v1}.
+\bibitem{orig-fmr26} A. Flamant, B. Mesland and A. Rennie,
+\emph{Comparison of Levi-Civita connections in noncommutative geometry},
+Journal of Geometry and Physics \textbf{219} (2026), 105690,
+doi:10.1016/j.geomphys.2025.105690.
+Cited version: \url{https://arxiv.org/abs/2505.18692v1}.
+\bibitem{orig-ah26} J. Arnlind and V. Hildebrandsson,
+\emph{On the existence of noncommutative Levi-Civita connections in
+derivation based calculi},
+Journal of Geometry and Physics \textbf{222} (2026), 105764,
+doi:10.1016/j.geomphys.2026.105764.
+Cited version: \url{https://arxiv.org/abs/2505.13984v1}.
+\bibitem{orig-aschieri26} P. Aschieri,
+\emph{Cartan structure equations and Levi-Civita connection in
+noncommutative geometry},
+Journal of Geometry and Physics \textbf{224} (2026), 105800,
+doi:10.1016/j.geomphys.2026.105800.
+Cited version: \url{https://arxiv.org/abs/2006.02761v3}.
+\bibitem{orig-aw25} P. Aschieri and T. Weber,
+\emph{Metric compatibility and Levi-Civita Connections on Quantum Groups},
+Journal of Algebra \textbf{661} (2025), 479--544,
+doi:10.1016/j.jalgebra.2024.07.039.
+Cited version: \url{https://arxiv.org/abs/2209.05453v2}.
+\bibitem{qlc-data} [dataset] M. Torsheim,
+\emph{Exact code and data for a marked path--triangle quantum
+Levi--Civita classification}, GitHub, article revision 0.13 and
+computational supplement revision 2.3 (2026).
+Version: commit \texttt{1cefff4}.
+\url{https://github.com/Torsheim/quantum-gravity-qlc/tree/1cefff4a809dae7626169fad6f469b97babf8a95}
+(accessed 31 October 2026).
+\end{thebibliography}
+\end{document}

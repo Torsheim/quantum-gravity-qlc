@@ -10,7 +10,7 @@ This repository contains article revision **0.13**, computational supplement **2
 - [Written computational supplement PDF](Quantum_Gravity_QLC_Supplement.pdf)
 - [Complete scientific source, code and data archive](Quantum_Gravity_QLC_Computational_Supplement.zip)
 
-The archive preserves the complete `qlc_release/` directory and all **319 scientific package files**. Its internal `SHA256SUMS.txt` checks the other 318 files. It includes all editable manuscript/supplement sources, `audit/`, `certificates/`, `sections/`, pinned dependencies, a worked connection, the literature comparison and fresh execution records. Author submission forms and internal review dossiers are excluded.
+The archive preserves the complete `qlc_release/` directory and all **321 scientific package files**. Its internal `SHA256SUMS.txt` checks the other 320 files. It includes all editable manuscript/supplement sources, `audit/`, `certificates/`, `sections/`, pinned dependencies, a worked connection, the literature comparison and fresh execution records. Author submission forms and internal review dossiers are excluded.
 
 ## Mathematical scope
 
@@ -47,3 +47,9 @@ See the extracted `qlc_release/README.md` and `REPRODUCTION_RESULTS.md` for the 
 ## Citation and status
 
 Citation metadata are in [CITATION.cff](CITATION.cff). No DOI or ORCID has been assigned here. Remaining journal formalities are separate from this repository; it does not indicate acceptance or external journal peer review. The manuscript discloses the actual scope of AI assistance and author oversight.
+
+## Exact data version cited by the article
+
+The fixed research snapshot is [commit 1cefff4](https://github.com/Torsheim/quantum-gravity-qlc/tree/1cefff4a809dae7626169fad6f469b97babf8a95). Its [original scientific archive](https://github.com/Torsheim/quantum-gravity-qlc/blob/1cefff4a809dae7626169fad6f469b97babf8a95/Quantum_Gravity_QLC_Computational_Supplement.zip) contains 319 files. The current branch additionally includes the public-data citation and associated source/provenance updates. All 175 protected counting inputs are byte-identical between these versions.
+
+[Data availability statement](data_availability.txt) and [editable article source](Quantum_Gravity_QLC_Article.tex) are provided separately. No DOI or separate archival-repository record is claimed. Elsevier's Option C requires a relevant data repository and data link; the official sources consulted neither explicitly approve nor exclude GitHub alone. A versioned archival deposit with a persistent identifier is recommended to remove this residual ambiguity.

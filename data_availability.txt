@@ -1,0 +1,15 @@
+The exact coefficient data, verification programs, certificates and
+execution records supporting the reported counts are publicly available
+in the GitHub research package at https://github.com/Torsheim/quantum-gravity-qlc/tree/1cefff4a809dae7626169fad6f469b97babf8a95.
+The cited version is commit 1cefff4a809dae7626169fad6f469b97babf8a95, accompanying article revision 0.13
+and computational supplement revision 2.3. The scientific archive is at
+https://github.com/Torsheim/quantum-gravity-qlc/blob/1cefff4a809dae7626169fad6f469b97babf8a95/Quantum_Gravity_QLC_Computational_Supplement.zip.
+The journal supplement also supplies the complete editable sources, exact
+data, pinned dependencies and execution records; its entry point is
+reproduce.py. The mathematical inputs in the cited snapshot and delivered
+package are identical. No DOI or third-party archival deposit is claimed.
+
+Data reference: [dataset] M. Torsheim, Exact code and data for a marked
+path-triangle quantum Levi-Civita classification, GitHub (2026), article
+revision 0.13 / supplement 2.3, commit 1cefff4a809dae7626169fad6f469b97babf8a95.
+https://github.com/Torsheim/quantum-gravity-qlc/tree/1cefff4a809dae7626169fad6f469b97babf8a95 (accessed 31 October 2026).
